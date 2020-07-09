@@ -4,6 +4,8 @@ const repository = require('../repositories/customer-repository');
 const CustomerValidator = require('../validators/customer-validator');
 const multer = require('multer');
 const path = require('path');
+const md5 = require('md5');
+const authService = require('../services/auth-service');
 
 // Configuring multer
 const storage = multer.diskStorage({
@@ -18,14 +20,25 @@ const upload = multer({ storage });
 exports.uploadImage = upload.single('file');
 
 // Controllers
-exports.get = async (req, res,  next) => {
-    try{
-        const data = await repository.authenticate(req.body);
-        if(data) {
-            res.status(200).send(data);
-        } else {
-            res.status(200).send({ message: 'Email ou senha incorretos'})
+exports.authenticate = async (req, res,  next) => {
+    try {
+        const customer = await repository.authenticate(req.body);
+        
+        if(!customer) {
+            res.status(404).send({ messsage: 'Usuário ou senha inválidos!' });
+            return;
         }
+        const token = await authService.generateToken({
+            id: customer._id,
+            email: customer.email,
+            name: customer.name,
+            roles: customer.roles,
+        });
+
+        res.status(201).send({
+            token: token,
+            data: customer
+        });
     } catch(err) {
         res.status(500).send({ 
             message: 'Falha ao processar requisição' 
@@ -48,7 +61,14 @@ exports.post = async (req, res, next) => {
     try {
         const customerValidator = new CustomerValidator();
         if(customerValidator.postValidation(req.body)) {
-            await repository.create(req.body);
+            await repository.create({
+                name: req.body.name,
+                phone: req.body.phone,
+                email: req.body.email,
+                address: req.body.address,
+                password: md5(req.body.password + global.SALT_KEY),
+                roles: ['user']
+            });
             res.status(201).send({ message: "Cliente cadastrado com sucesso." });
         } else {
             res.status(200).send( customerValidator.errors() );
@@ -81,11 +101,14 @@ exports.put = async (req, res, next) => {
 
 exports.putAdmin = async(req, res, next) => {
     try {
-        const id = req.params.id;
-        const value = req.body.value;
+        const email = req.body.email;
+        const value = req.params.value;
 
-        await repository.updateAdmin(id, value);
-        if(value === 'true') {
+        const cb = await repository.updateAdmin(email, value);
+        if(cb === null) {
+            res.status(200).send({ message: "Usuário não encontrado" });
+        }
+        else if(value === 'true') {
             res.status(200).send({ message: "O usuário agora é um admnistrador!" });
         } else {
             res.status(200).send({ message: "O usuário não é mais um admnistrador!" });
@@ -100,10 +123,16 @@ exports.putAdmin = async(req, res, next) => {
 
 exports.delete = async (req, res, next) => {
     try {
-        await repository.delete(req.body.id)
-        res.status(200).send({
-            message: 'Cliente removido com sucesso!'
-        })
+        const cb = await repository.delete(req.body.id);
+        if(cb === null) {
+            res.status(200).send({
+                message: 'Usuário não encontrado!'
+            });
+        } else {
+            res.status(200).send({
+                message: 'Cliente removido com sucesso!'
+            });
+        }
     } catch(err) {
         res.status(500).send({ 
             message: 'Falha ao processar requisição' 

@@ -28,10 +28,12 @@ const schema = mongoose.Schema({
         type: String,
         required: [true, 'A senha de usuário é obrigatória']
     },
-    admin: {
-        type: Boolean,
-        default: false
-    }
+    roles: [{
+        type: String,
+        required: true,
+        enum: ['user', 'admin'],
+        default: 'user'
+    }]
 });
 
 module.exports = mongoose.model('Customer', schema);

@@ -10,7 +10,7 @@ exports.get = async () => {
         'title slug price'
     );
     return res;
-};
+}
 
 exports.getBySlug = async (slug) => {
     const query = { 
@@ -23,12 +23,12 @@ exports.getBySlug = async (slug) => {
             'title description price slug tags'
         );
     return res;
-};
+}
 
 exports.getById = async (id) => {
     const res = await Product.findById(id);
     return res;
-};
+}
 
 exports.getByTag = async (tag) => {
     const res = await Product.find({ 
@@ -36,13 +36,13 @@ exports.getByTag = async (tag) => {
         active: true
     }, 'title description price slug tags');
     return res;
-};
+}
 
 exports.create = async (body) => {
     const product = new Product(body);
     const res = await product.save();
     return res;
-};
+}
 
 exports.update = async (id, body) => {
     const res = await Product
@@ -61,4 +61,4 @@ exports.update = async (id, body) => {
 exports.delete = async (id) => {
     const res = await Product.findOneAndRemove(id);
     return res;
-};
+}

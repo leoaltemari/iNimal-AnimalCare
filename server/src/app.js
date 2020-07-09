@@ -27,8 +27,17 @@ const Service = require('./models/Service');
 // MiddleWares
 app.use(express.json());
 app.use(express.static('public'));
-app.use(cors());
-app.use(bodyParser.json());
+  // Cors
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, x-access-token');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  next();
+});
+  // Body-Parser
+app.use(bodyParser.json({
+  limit: '1mb'
+}));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
@@ -38,7 +47,7 @@ app.use('/customers', customerRoute);
 app.use('/orders', orderRoute);
 app.use('/services', serviceRoute);
 
-// Conect to the DB
+// Conect to the database
 const uri = config.connectionString;
 mongoose.connect(uri, {
     useNewUrlParser: true,

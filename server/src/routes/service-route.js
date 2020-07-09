@@ -3,22 +3,21 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/service-controller');
-
+const authService = require('../services/auth-service');
 
 // GET
 router.get('/', controller.get);
 router.get('/:slug', controller.getBySlug);
 router.get('/admin/:id', controller.getById);
-// router.get('/tags/:tag', controller.getByTag);
-router.get('/partners/hours', controller.getPartnerHours);
+router.get('/tags/:tag', controller.getByTag);
 
 // POST
-router.post('/', controller.post);
+router.post('/', authService.isAdmin, controller.post);
 
 // PUT
-router.put('/:id', controller.put);
+router.put('/:id', authService.isAdmin, controller.put);
 
 // DELETE
-router.delete('/', controller.delete);
+router.delete('/', authService.isAdmin, controller.delete);
 
 module.exports = router;

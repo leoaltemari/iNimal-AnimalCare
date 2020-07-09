@@ -58,17 +58,6 @@ exports.getByTag = async (req, res, next) => {
     }; 
 };
 
-exports.getPartnerHours = async (req, res, next) => {
-    try {
-        let data = await repository.getPartnerHours(req.body);
-        res.status(200).send(data);
-    } catch(err) {
-        res.status(500).send({ 
-            message: 'Falha ao processar requisição' 
-        });
-    }; 
-};
-
 exports.put = async (req, res, next) => {
     try {
         await repository.update(req.params.id, req.body);

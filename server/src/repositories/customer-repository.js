@@ -2,12 +2,9 @@
 const mongoose = require('mongoose');
 const Customer = require('../models/Customer');
 const fs = require('fs');
-
+const md5 = require('md5');
 
 exports.create = async(data) => {
-    // data.image = {};
-    // data.image.id = "a";
-    // data.image.url = "b";
     var customer = new Customer(data);
     await customer.save();
 }
@@ -15,8 +12,8 @@ exports.create = async(data) => {
 exports.authenticate = async(data) => {
     const res = await Customer.findOne({
         email: data.email,
-        password: data.password
-    }, 'name email phone address image');
+        password: md5(data.password + global.SALT_KEY)
+    }, 'name email phone address image roles');
     return res;
 }
 
@@ -68,13 +65,23 @@ exports.update = async (id, body, file) => {
     return res;
 }
 
-exports.updateAdmin = async (id, value) => {
-    const query = { admin: value};
-    const res = await Customer.findByIdAndUpdate(id, query);
+exports.updateAdmin = async (email, value) => {
+    const query = { email: email };
+    let update;
+    if(value === 'true') {
+        update = { roles: 'admin' }
+    } else {
+        update = { roles: 'user' }
+    }
+    const res = await Customer.findOneAndUpdate( query, update);
     return res;
 }
 
 exports.delete = async (id) => {
     const res = await Customer.findOneAndRemove(id);
+    if(res.image) {
+        const path = res.image.url;
+        fs.unlinkSync(path);
+    }
     return res;
 }
