@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/', (req, res, next) => {
     res.status(200).send({
-        title: "CoNews API - Administrator",
+        title: "iNimal API - Administrator",
         version: "0.1"
     });
 });
