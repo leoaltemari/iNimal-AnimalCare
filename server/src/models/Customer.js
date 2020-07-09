@@ -5,7 +5,6 @@ const schema = mongoose.Schema({
     name: {
         type: String,
         required: [true, 'O nome de usuário é obrigatório'],
-        unique: true
     },
     phone: {
         type: String,
@@ -16,9 +15,9 @@ const schema = mongoose.Schema({
         type: String,
         required: [true, 'O endereço é obrigatório']
     },
-    image: [{
-        type: String,
-    }],
+    image: {
+        type: Object
+    },
     email: {
         type: String,
         pattern: "/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi",
@@ -28,6 +27,10 @@ const schema = mongoose.Schema({
     password: {
         type: String,
         required: [true, 'A senha de usuário é obrigatória']
+    },
+    admin: {
+        type: Boolean,
+        default: false
     }
 });
 

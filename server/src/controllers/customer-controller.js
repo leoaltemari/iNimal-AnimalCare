@@ -15,14 +15,17 @@ const storage = multer.diskStorage({
     }
 })
 const upload = multer({ storage });
-
 exports.uploadImage = upload.single('file');
 
 // Controllers
 exports.get = async (req, res,  next) => {
     try{
-        const data = await repository.get();
-        res.status(200).send(data);
+        const data = await repository.authenticate(req.body);
+        if(data) {
+            res.status(200).send(data);
+        } else {
+            res.status(200).send({ message: 'Email ou senha incorretos'})
+        }
     } catch(err) {
         res.status(500).send({ 
             message: 'Falha ao processar requisição' 
@@ -62,7 +65,7 @@ exports.put = async (req, res, next) => {
     try {
         const customerValidator = new CustomerValidator();
         if(customerValidator.putValidation(req.body)) {
-            await repository.update(req.params.id, req.body);
+            await repository.update(req.params.id, req.body, req.file);
             res.status(200).send({
                 message: 'Informações atualizadas com sucesso!'
             });
@@ -75,6 +78,25 @@ exports.put = async (req, res, next) => {
         });
     };
 };
+
+exports.putAdmin = async(req, res, next) => {
+    try {
+        const id = req.params.id;
+        const value = req.body.value;
+
+        await repository.updateAdmin(id, value);
+        if(value === 'true') {
+            res.status(200).send({ message: "O usuário agora é um admnistrador!" });
+        } else {
+            res.status(200).send({ message: "O usuário não é mais um admnistrador!" });
+        }
+
+    } catch(err) {
+        res.status(500).send({ 
+            message: 'Falha ao processar requisição' 
+        });
+    };
+}
 
 exports.delete = async (req, res, next) => {
     try {

@@ -14,6 +14,7 @@ router.post('/', controller.post);
 
 // PUT
 router.put('/:id', controller.uploadImage, controller.put);
+router.put('/admin/:id', controller.putAdmin);
 
 // DELETE
 router.delete('/', controller.delete);
