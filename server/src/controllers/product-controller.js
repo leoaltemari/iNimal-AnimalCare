@@ -25,6 +25,8 @@ exports.get = async (req, res,  next) => {
     };
 };
 
+
+
 exports.getBySlug = async (req, res, next) => {
     try {
         let data = await repository.getBySlug(req.params.slug);
@@ -75,7 +77,7 @@ exports.delete = async (req, res, next) => {
     try {
         await repository.delete(req.body.id)
         res.status(200).send({
-            message: 'Produto removido com sucesso!'
+            message: ' removido com sucesso!'
         })
     } catch(err) {
         res.status(500).send({ 
