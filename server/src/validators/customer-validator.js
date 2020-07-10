@@ -17,9 +17,9 @@ CustomerValidation.prototype.postValidation = (data) => {
     // Required validation
     validator.isRequired(data.name, 'O campo Nome é obrigatório');
     validator.isRequired(data.email, 'O campo Email é obrigatório');
-    validator.isRequired(data.email, 'O campo Telefone é obrigatório');
-    validator.isRequired(data.email, 'O campo Endereço é obrigatório');
-    validator.isRequired(data.email, 'O campo Senha é obrigatório');
+    validator.isRequired(data.phone, 'O campo Telefone é obrigatório');
+    validator.isRequired(data.address, 'O campo Endereço é obrigatório');
+    validator.isRequired(data.password, 'O campo Senha é obrigatório');
     
     // If one of the required fields is not completed
     if(!validator.isValid()) {

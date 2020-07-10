@@ -17,16 +17,19 @@ const productRoute = require('./routes/product-route');
 const customerRoute = require('./routes/customer-route');
 const orderRoute = require('./routes/order-route');
 const serviceRoute = require('./routes/service-route');
+const petRoute = require('./routes/pet-route');
 
 // Carregando Models
 const Product = require('./models/Product');
 const Customer = require('./models/Customer');
 const Order = require('./models/Order');
 const Service = require('./models/Service');
+const Pet = require('./models/Pet');
 
 // MiddleWares
 app.use(express.json());
 app.use(express.static('public'));
+
   // Cors
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -34,6 +37,7 @@ app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   next();
 });
+
   // Body-Parser
 app.use(bodyParser.json({
   limit: '1mb'
@@ -46,6 +50,7 @@ app.use('/products', productRoute);
 app.use('/customers', customerRoute);
 app.use('/orders', orderRoute);
 app.use('/services', serviceRoute);
+app.use('/pets', petRoute);
 
 // Conect to the database
 const uri = config.connectionString;
