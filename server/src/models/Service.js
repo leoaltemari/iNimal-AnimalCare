@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 const schema = mongoose.Schema({
-    title: {
+    name: {
         type: String,
         required: [true, 'O título é obrigatório'],
         trim: true
@@ -29,15 +29,19 @@ const schema = mongoose.Schema({
     hours: [{
         type: String,
         required: true
-    }]
-    // active: {
-    //     type: String,
-    //     required: true
-    // },
-    // tags: [{
-    //     type: String,
-    //     required: true
-    // }],
+    }],
+    image: {
+        type: Object
+    },
+    active: {
+        type: Boolean,
+        required: true,
+        default: true
+    },
+    tags: [{
+        type: String,
+        required: true
+    }],
 });
 
 module.exports = mongoose.model('Service', schema);

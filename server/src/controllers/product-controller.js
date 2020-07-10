@@ -119,9 +119,9 @@ exports.put = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
     try {
-        await repository.delete(req.body.id)
+        await repository.delete(req.params.id)
         res.status(200).send({
-            message: ' removido com sucesso!'
+            message: 'Produto removido com sucesso!'
         })
     } catch(err) {
         res.status(500).send({ 
