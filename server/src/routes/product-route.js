@@ -12,7 +12,7 @@ router.get('/admin/:id', controller.getById);
 router.get('/tags/:tag', controller.getByTag);
 
 // POST
-router.post('/', authService.isAdmin, controller.post);
+router.post('/', authService.isAdmin, controller.checkData, controller.post);
 
 // PUT
 router.put('/:id', authService.isAdmin, controller.put);

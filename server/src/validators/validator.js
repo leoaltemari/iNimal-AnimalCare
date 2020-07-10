@@ -38,6 +38,21 @@ ValidationContract.prototype.validPassword = (value, message) => {
         errors.push({ message: message });
 }
 
+ValidationContract.prototype.contains = (data, value, message) => {
+    if (data.includes(value))
+        errors.push({ message: message });
+}
+
+ValidationContract.prototype.isLower = (data, value, message) => {
+    if (data < value)
+        errors.push({ message: message });
+}
+
+ValidationContract.prototype.isHigher = (data, value, message) => {
+    if (data > value)
+        errors.push({ message: message });
+}
+
 ValidationContract.prototype.errors = () => { 
     return errors; 
 }

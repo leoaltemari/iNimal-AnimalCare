@@ -28,6 +28,9 @@ const schema = mongoose.Schema({
         type: String,
         required: [true, 'A senha de usuário é obrigatória']
     },
+    numCard: {
+        type: Number
+    },
     roles: [{
         type: String,
         required: true,

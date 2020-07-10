@@ -9,7 +9,9 @@ exports.post = async (req, res, next) => {
         res.status(201).send({message: "Serviço cadastrado com sucesso."});
     } catch(err) {
         res.status(500).send({ 
-            message: 'Falha ao processar requisição' 
+            message: 'Falha ao processar requisição',
+            err: err.message,
+            code: err.code
         });
     };;  
 };
@@ -31,7 +33,9 @@ exports.getBySlug = async (req, res, next) => {
         res.status(200).send(data);
     } catch(err) {
         res.status(500).send({ 
-            message: 'Falha ao processar requisição' 
+            message: 'Falha ao processar requisição',
+            err: err.message,
+            code: err.code
         });
     };
 };
@@ -42,7 +46,9 @@ exports.getById = async (req, res, next) => {
         res.status(200).send(data);
     } catch(err) {
         res.status(500).send({ 
-            message: 'Falha ao processar requisição' 
+            message: 'Falha ao processar requisição',
+            err: err.message,
+            code: err.code
         });
     };     
 }
@@ -53,7 +59,9 @@ exports.getByTag = async (req, res, next) => {
         res.status(200).send(data);
     } catch(err) {
         res.status(500).send({ 
-            message: 'Falha ao processar requisição' 
+            message: 'Falha ao processar requisição',
+            err: err.message,
+            code: err.code
         });
     }; 
 };
@@ -66,7 +74,9 @@ exports.put = async (req, res, next) => {
         })
     } catch(err) {
         res.status(500).send({ 
-            message: 'Falha ao processar requisição' 
+            message: 'Falha ao processar requisição',
+            err: err.message,
+            code: err.code
         });
     };
 };
@@ -79,7 +89,9 @@ exports.delete = async (req, res, next) => {
         })
     } catch(err) {
         res.status(500).send({ 
-            message: 'Falha ao processar requisição' 
+            message: 'Falha ao processar requisição',
+            err: err.message,
+            code: err.code
         });
     };
 };

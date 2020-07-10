@@ -7,7 +7,7 @@ exports.get = async () => {
     const query = { active: true };
     const res = await Product.find(
         query,
-        'title slug price'
+        'name price description price image quantity category'
     );
     return res;
 }
@@ -20,7 +20,7 @@ exports.getBySlug = async (slug) => {
     const res = await Product
         .findOne(
             query,
-            'title description price slug tags'
+            'name price description price image quantity category'
         );
     return res;
 }

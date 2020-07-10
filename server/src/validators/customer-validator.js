@@ -28,7 +28,7 @@ CustomerValidation.prototype.postValidation = (data) => {
 
     // Name validator
     validator.hasMinLen(data.name, 5, 'O nome deve possuir mínimo de 5 caracteres');
-    validator.hasMaxLen(data.name, 50, 'O nome deve possuir máximo de 20 caracteres');
+    validator.hasMaxLen(data.name, 50, 'O nome deve possuir máximo de 50 caracteres');
        
     // Email validator
     validator.isEmail(data.email, 'O email deve estar no formato user@domain.com');

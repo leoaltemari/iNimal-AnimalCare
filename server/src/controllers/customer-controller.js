@@ -43,7 +43,9 @@ exports.authenticate = async (req, res,  next) => {
         });
     } catch(err) {
         res.status(500).send({ 
-            message: 'Falha ao processar requisição' 
+            message: 'Falha ao processar requisição',
+            err: err.message,
+            code: err.code
         });
     };
 };
@@ -54,7 +56,9 @@ exports.getById = async (req, res,  next) => {
         res.status(200).send(data);
     } catch(err) {
         res.status(500).send({ 
-            message: 'Falha ao processar requisição' 
+            message: 'Falha ao processar requisição',
+            err: err.message,
+            code: err.code
         });
     };
 };
@@ -78,7 +82,8 @@ exports.post = async (req, res, next) => {
     } catch(err) {
         res.status(500).send({ 
             message: 'Falha ao processar requisição',
-            error: err.message
+            err: err.message,
+            code: err.code
         });
     };;  
 };
@@ -96,7 +101,9 @@ exports.put = async (req, res, next) => {
         }
     } catch(err) {
         res.status(500).send({ 
-            message: 'Falha ao processar requisição' 
+            message: 'Falha ao processar requisição',
+            err: err.message,
+            code: err.code
         });
     };
 };
@@ -118,7 +125,9 @@ exports.putAdmin = async(req, res, next) => {
 
     } catch(err) {
         res.status(500).send({ 
-            message: 'Falha ao processar requisição' 
+            message: 'Falha ao processar requisição',
+            err: err.message,
+            code: err.code
         });
     };
 }
@@ -137,7 +146,9 @@ exports.delete = async (req, res, next) => {
         }
     } catch(err) {
         res.status(500).send({ 
-            message: 'Falha ao processar requisição' 
+            message: 'Falha ao processar requisição',
+            err: err.message,
+            code: err.code
         });
     };
 };

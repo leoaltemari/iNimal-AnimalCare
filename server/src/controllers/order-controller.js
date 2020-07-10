@@ -14,7 +14,11 @@ exports.post = async (req, res, next) => {
         await repository.create(data);
         res.status(200).send({ message: 'Pedido cadastrado com sucesso!' });
     } catch(err) {
-        res.status(400).send({ message: err });
+        res.status(500).send({ 
+            message: 'Falha ao processar requisição',
+            err: err.message,
+            code: err.code
+        });
     }
 };
 
@@ -24,7 +28,9 @@ exports.get = async (req, res,  next) => {
         res.status(200).send(data);
     } catch(err) {
         res.status(500).send({ 
-            message: 'Falha ao processar requisição' 
+            message: 'Falha ao processar requisição',
+            err: err.message,
+            code: err.code
         });
     };
 };
