@@ -50,7 +50,7 @@ exports.update = async (id, body, file) => {
     // Updating image if there is one
     if(file) {
         let imageId = file.filename;
-        query.image = { id: imageId, url: `src/public/uploads/${imageId}`};
+        query.image = { id: imageId, url: `src/public/uploads/customers/${imageId}`};
         const user = await Customer.findById(id, 'image');
         
         // Remove the old image from the upload folder

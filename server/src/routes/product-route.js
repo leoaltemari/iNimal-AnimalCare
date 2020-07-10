@@ -12,10 +12,11 @@ router.get('/admin/:id', controller.getById);
 router.get('/tags/:tag', controller.getByTag);
 
 // POST
-router.post('/', authService.isAdmin, controller.checkData, controller.post);
+router.post('/', authService.isAdmin, controller.checkPostData, 
+                 controller.uploadImage, controller.post);
 
 // PUT
-router.put('/:id', authService.isAdmin, controller.put);
+router.put('/:id', authService.isAdmin, controller.checkPutData, controller.uploadImage, controller.put);
 
 // DELETE
 router.delete('/', authService.isAdmin, controller.delete);

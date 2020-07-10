@@ -10,7 +10,7 @@ const authService = require('../services/auth-service');
 // Configuring multer
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'src/public/uploads');
+        cb(null, 'src/public/uploads/customers');
     },
     filename: (req, file, cb) => {
         cb(null, file.originalname + Date.now() + path.extname(file.originalname));

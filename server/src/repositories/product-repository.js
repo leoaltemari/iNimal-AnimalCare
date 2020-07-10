@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose');
 const Product = require('../models/Product');
+const fs = require('fs');
 
 exports.get = async () => {
     const query = { active: true };
@@ -20,7 +21,7 @@ exports.getBySlug = async (slug) => {
     const res = await Product
         .findOne(
             query,
-            'name price description price image quantity category'
+            'name description price image quantity category'
         );
     return res;
 }
@@ -34,7 +35,7 @@ exports.getByTag = async (tag) => {
     const res = await Product.find({ 
         tags: tag,
         active: true
-    }, 'title description price slug tags');
+    }, 'name description price image quantity category');
     return res;
 }
 
@@ -44,16 +45,43 @@ exports.create = async (body) => {
     return res;
 }
 
-exports.update = async (id, body) => {
-    const res = await Product
-        .findByIdAndUpdate(id, {
-            $set: {
-                title: body.title,
-                description: body.description,
-                slug: body.slug,
-                price: body.price
-            }
-        });
+exports.update = async (id, body, file) => {
+    const query = {
+    };
+
+    if(body.name) {
+        query.name = body.name;
+    }
+    if(body.description) {
+        query.description = body.description;
+    }
+    if(body.price) {
+        query.price = body.price;
+    }
+    if(body.quantity) {
+        query.quantity = body.quantity;
+    }
+    if(body.tags) {
+        query.tags = body.tags;
+    }
+    if(body.slug) {
+        query.slug = body.slug;
+    }
+
+    // Updating image if there is one
+    if(file) {
+        let imageId = file.filename;
+        query.image = { id: imageId, url: `src/public/uploads/products/${imageId}`};
+        const product = await Product.findById(id, 'image');
+        
+        // Remove the old image from the upload folder
+        if(product.image) {
+            const path = product.image.url;
+            fs.unlinkSync(path);
+        }
+    }
+
+    const res = await Product.findByIdAndUpdate(id, query);
 
     return res;
 }

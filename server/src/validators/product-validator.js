@@ -12,6 +12,8 @@ function ProductValidation() {
 };
 
 // Methods
+
+// Validation to make a POST
 ProductValidation.prototype.postValidation = (data) => {
     validator.clear();
     // Required validation
@@ -44,7 +46,40 @@ ProductValidation.prototype.postValidation = (data) => {
     return false;
 }
 
-ProductValidation.prototype.putValidation = (data) => {}
+// Validation to make a PUT
+ProductValidation.prototype.putValidation = (data) => {
+    validator.clear();
+    // Check name
+    if(data.name) {
+        validator.hasMinLen(data.name, 5, 'O nome deve possuir mínimo de 5 caracteres');
+        validator.hasMaxLen(data.name, 50, 'O nome deve possuir máximo de 50 caracteres');
+    }
+    // Check price
+    if(data.price) {
+        validator.isRequired(data.price, 'Preço deve ser maior que 0');
+    }
+
+    // Check description
+    if(data.description) {
+        validator.hasMinLen(data.description, 10, 'Descriçãodeve conter no mínimo 10 letras');
+        validator.hasMaxLen(data.description, 50, 'Descrição deve conter no máximo 50 letras');
+    }
+    // Check quantity
+    if(data.quantity) {
+        validator.isRequired(data.quantity, 'Quantidade deve ser maior que 0');
+    }
+
+    // Check slug
+    if(data.slug) {
+        validator.contains(data.slug, " ", 'O slug nao deve conter espacos');
+    }
+
+    if(validator.isValid()) {
+        return true;
+    }
+    
+    return false;
+}
 
 // GetErrors
 ProductValidation.prototype.errors = () => { 
