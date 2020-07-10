@@ -28,6 +28,8 @@ exports.authenticate = async (req, res,  next) => {
             res.status(404).send({ messsage: 'Usuário ou senha inválidos!' });
             return;
         }
+    
+        // Generates a token to the user 
         const token = await authService.generateToken({
             id: customer._id,
             email: customer.email,

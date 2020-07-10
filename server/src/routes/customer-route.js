@@ -13,8 +13,8 @@ router.get('/:id', controller.getById);
 router.post('/', controller.post);
 
 // PUT
-router.put('/:id', controller.uploadImage, controller.put);
-router.put('/admin/:value', controller.putAdmin);
+router.put('/:id', authService.authorize, controller.uploadImage, controller.put);
+router.put('/admin/:value', authService.authorize, controller.putAdmin);
 
 // DELETE
 router.delete('/', authService.isAdmin ,controller.delete);
