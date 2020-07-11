@@ -11,9 +11,23 @@ const schema = mongoose.Schema({
         required: true,
     },
     createDate: {
-        type: Date,
-        required: true,
-        default: Date.now
+        day: {
+            type: String,
+            required: true,
+        },
+        month: {
+            type: String,
+            required: true,
+        },
+        year: {
+            type: String,
+            required: true,
+        },
+        
+    },
+    hour: {
+        type: String,
+        required: true
     },
     status: {
         type: String,
@@ -27,15 +41,15 @@ const schema = mongoose.Schema({
             required: true,
             default: 1
         },
-        price: {
-            type: Number,
-            required: true
-        },
         product: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Product'
         }
-    }]
+    }],
+    totalPrice: {
+        type: Number,
+        required: true
+    }
 });
 
 module.exports = mongoose.model('Order', schema);

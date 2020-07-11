@@ -6,7 +6,8 @@ const controller = require('../controllers/pet-controller');
 const authService = require('../services/auth-service');
 
 // GET
-router.get('/:id', controller.getByOwnerId);
+router.get('/:id', authService.authorize, controller.getByOwnerId);
+
 // POST
 router.post('/', authService.authorize, controller.checkPostData, 
                  controller.uploadImage, controller.post);

@@ -4,15 +4,28 @@ const repository = require('../repositories/order-repository');
 const guid = require('guid');
 
 exports.post = async (req, res, next) => {
+    let now = new Date();
     let data = {
         customer: req.body.customer,
         number:  guid.raw().substring(0, 6),
-        items: req.body.items
+        createDate: {
+            day: now.getDate(),
+            month: now.getMonth()+1,
+            year: now.getFullYear(),
+        },
+        items: req.body.items,
+        hour: now.getHours() + ':' + now.getMinutes(),
+        totalPrice: req.body.totalPrice
     };
-
     try {
-        await repository.create(data);
-        res.status(200).send({ message: 'Pedido cadastrado com sucesso!' });
+        let cb = await repository.create(data);
+        if(cb != null) {
+            repository.updateQuantities(cb.items);
+        }
+        res.status(200).send({ 
+            message: 'Pedido cadastrado com sucesso!',
+            data: cb 
+        });
     } catch(err) {
         res.status(500).send({ 
             message: 'Falha ao processar requisição',
@@ -26,6 +39,58 @@ exports.get = async (req, res,  next) => {
     try{
         const data = await repository.get();
         res.status(200).send(data);
+    } catch(err) {
+        res.status(500).send({ 
+            message: 'Falha ao processar requisição',
+            err: err.message,
+            code: err.code
+        });
+    };
+};
+
+exports.getByCustomerId = async (req, res,  next) => {
+    try{
+        const cb = await repository.getByCustomerId(req.params.id);
+        
+        if(cb === null) {
+            res.status(200).send({message: 'Nenhum pedido encontrado'});
+        } else {
+            res.status(200).send(data);
+        }
+    } catch(err) {
+        res.status(500).send({ 
+            message: 'Falha ao processar requisição',
+            err: err.message,
+            code: err.code
+        });
+    };
+};
+
+exports.getByStatus = async (req, res,  next) => {
+    try{
+        const data = await repository.getByStatus(req.params.status);
+        if(data.length === 0) {
+            res.status(200).send({ message: 'Nenhum pedido encontrado' });
+        } else {
+            res.status(200).send(data);
+        }
+    } catch(err) {
+        res.status(500).send({ 
+            message: 'Falha ao processar requisição',
+            err: err.message,
+            code: err.code
+        });
+    };
+};
+
+exports.getByDate = async (req, res,  next) => {
+    try{
+        const data = await repository.getByDate(req.body.createDate);
+        if(data.length === 0) {
+            res.status(200).send({ message: 'Nenhum pedido encontrado' });
+        } else {
+            res.status(200).send(data);
+        }
     } catch(err) {
         res.status(500).send({ 
             message: 'Falha ao processar requisição',

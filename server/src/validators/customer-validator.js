@@ -85,7 +85,6 @@ CustomerValidation.prototype.putValidation = (data) => {
     }
     
     return false;
-    
 }
 
 // GetErrors
