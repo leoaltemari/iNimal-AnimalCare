@@ -27,7 +27,6 @@ PetValidation.prototype.postValidation = (data) => {
     
     // Name validator
     if(data.name) {
-        validator.hasMinLen(data.name, 5, 'O nome deve possuir mínimo de 5 caracteres');
         validator.hasMaxLen(data.name, 50, 'O nome deve possuir máximo de 50 caracteres');
     }
 
@@ -50,7 +49,6 @@ PetValidation.prototype.putValidation = (data) => {
     
     // Name validator
     if(data.name) {
-        validator.hasMinLen(data.name, 5, 'O nome deve possuir mínimo de 5 caracteres');
         validator.hasMaxLen(data.name, 50, 'O nome deve possuir máximo de 50 caracteres');
     }
 

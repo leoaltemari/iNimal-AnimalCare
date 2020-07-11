@@ -18,6 +18,7 @@ const customerRoute = require('./routes/customer-route');
 const orderRoute = require('./routes/order-route');
 const serviceRoute = require('./routes/service-route');
 const petRoute = require('./routes/pet-route');
+const scheduleRoute = require('./routes/schedule-route');
 
 // Carregando Models
 const Product = require('./models/Product');
@@ -25,6 +26,7 @@ const Customer = require('./models/Customer');
 const Order = require('./models/Order');
 const Service = require('./models/Service');
 const Pet = require('./models/Pet');
+const Schedule = require('./models/Schedule');
 
 // MiddleWares
 app.use(express.json());
@@ -51,6 +53,7 @@ app.use('/customers', customerRoute);
 app.use('/orders', orderRoute);
 app.use('/services', serviceRoute);
 app.use('/pets', petRoute);
+app.use('/schedules', scheduleRoute);
 
 // Conect to the database
 const uri = config.connectionString;

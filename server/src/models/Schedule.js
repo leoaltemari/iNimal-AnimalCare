@@ -6,9 +6,13 @@ const schema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Customer'
     },
-    number: {
-        type: String,
-        required: true,
+    pet: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Pet'
+    },
+    service: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Service'
     },
     createDate: {
         day: {
@@ -22,30 +26,26 @@ const schema = mongoose.Schema({
         year: {
             type: String,
             required: true,
+        }, 
+    },
+    scheduleDate: {
+        day: {
+            type: String,
+            required: true,
         },
-        
+        month: {
+            type: String,
+            required: true,
+        },
+        year: {
+            type: String,
+            required: true,
+        }, 
     },
     hour: {
-        type: String,
+        type: Number,
         required: true
     },
-    status: {
-        type: String,
-        required: true,
-        enum: ['created', 'done'],
-        default: 'created'
-    },
-    items: [{
-        quantity: {
-            type: Number,
-            required: true,
-            default: 1
-        },
-        product: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Product'
-        }
-    }],
     totalPrice: {
         type: Number,
         required: true

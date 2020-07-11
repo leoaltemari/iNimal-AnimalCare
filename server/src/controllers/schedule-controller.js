@@ -1,16 +1,19 @@
 'use strict'
 
-const repository = require('../repositories/order-repository');
+const repository = require('../repositories/schedule-repository');
 const guid = require('guid');
 
-exports.checkStock= async (req, res, next) => {
+exports.checkDayAvaliable = async (req, res, next) => {
     try {
-        let items  = req.body.items;
-        const cb = await repository.checkStock(items);
-        if(cb === null) {
+        const date = req.body.date;
+        const cb  = await repository.getByDate(date);
+
+        if(cb.length === 10) {
+            res.status(200).send({
+                messsage: 'Dia cheio',
+            });
+        } else {
             next();
-        } else  {
-            res.status(200).send(cb);
         }
     } catch(err) {
         res.status(500).send({ 
@@ -23,25 +26,25 @@ exports.checkStock= async (req, res, next) => {
 
 exports.post = async (req, res, next) => {
     let now = new Date();
+    // Creates the data to save
     let data = {
         customer: req.body.customer,
-        number:  guid.raw().substring(0, 6),
+        pet: req.body.pet,
+        service: req.body.service,
         createDate: {
             day: now.getDate(),
             month: now.getMonth()+1,
             year: now.getFullYear(),
         },
-        items: req.body.items,
-        hour: now.getHours() + ':' + now.getMinutes(),
-        totalPrice: req.body.totalPrice
+        scheduleDate: req.body.date,
+        hour: req.body.hour,
+        totalPrice: req.body.price
     };
+    // Saves in the DB
     try {
-        let cb = await repository.create(data);
-        if(cb != null) {
-            repository.updateQuantities(cb.items);
-        }
+        const cb = await repository.create(data);
         res.status(200).send({ 
-            message: 'Pedido cadastrado com sucesso!',
+            message: 'Serviço agendado com sucesso!',
             data: cb 
         });
     } catch(err) {
@@ -56,7 +59,12 @@ exports.post = async (req, res, next) => {
 exports.get = async (req, res,  next) => {
     try{
         const data = await repository.get();
-        res.status(200).send(data);
+        if(data === null) {
+            res.status(200).send({ message: 'Não há agendamentos!' });
+        } else {
+            res.status(200).send(data);
+        }
+        
     } catch(err) {
         res.status(500).send({ 
             message: 'Falha ao processar requisição',
@@ -71,7 +79,7 @@ exports.getByCustomerId = async (req, res,  next) => {
         const cb = await repository.getByCustomerId(req.params.id);
         
         if(cb === null) {
-            res.status(200).send({message: 'Nenhum pedido encontrado'});
+            res.status(200).send({message: 'Nenhum agendamento encontrado'});
         } else {
             res.status(200).send(cb);
         }
@@ -84,11 +92,14 @@ exports.getByCustomerId = async (req, res,  next) => {
     };
 };
 
-exports.getByStatus = async (req, res,  next) => {
+exports.getByDate = async (req, res,  next) => {
     try{
-        const data = await repository.getByStatus(req.params.status);
+        const data = await repository.getByDate(req.body.date);
         if(data.length === 0) {
-            res.status(200).send({ message: 'Nenhum pedido encontrado' });
+            res.status(200).send({ 
+                message: 'Nenhum agendamento encontrado',
+                data: data  //empty data
+            });
         } else {
             res.status(200).send(data);
         }
@@ -101,13 +112,16 @@ exports.getByStatus = async (req, res,  next) => {
     };
 };
 
-exports.getByDate = async (req, res,  next) => {
+exports.delete = async(req, res, next) => {
     try{
-        const data = await repository.getByDate(req.body.createDate);
-        if(data.length === 0) {
-            res.status(200).send({ message: 'Nenhum pedido encontrado' });
+        const cb = await repository.delete(req.params.id);
+        if(cb === null) {
+            res.status(200).send({ message: 'Agendamento não encontrado!' });
         } else {
-            res.status(200).send(data);
+            res.status(200).send({ 
+                message: 'Agendamento removido com sucesso!',
+                data: cb 
+            });
         }
     } catch(err) {
         res.status(500).send({ 
@@ -116,4 +130,4 @@ exports.getByDate = async (req, res,  next) => {
             code: err.code
         });
     };
-};
+}
