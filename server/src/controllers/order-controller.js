@@ -3,6 +3,24 @@
 const repository = require('../repositories/order-repository');
 const guid = require('guid');
 
+exports.checkStock= async (req, res, next) => {
+    try {
+        let items  = req.body.items;
+        const cb = await repository.checkStock(items);
+        if(cb === null) {
+            next();
+        } else  {
+            res.status(200).send(cb);
+        }
+    } catch(err) {
+        res.status(500).send({ 
+            message: 'Falha ao processar requisição',
+            err: err.message,
+            code: err.code
+        });
+    }
+}
+
 exports.post = async (req, res, next) => {
     let now = new Date();
     let data = {

@@ -4,6 +4,25 @@ const mongoose = require('mongoose');
 const Order = require('../models/Order');
 const Product = require('../models/Product')
 
+exports.checkStock = async (items) => {
+    for(let i = 0; i < items.length; i++) {
+        const itemId = items[i].product;
+        const quantityRequest = items[i].quantity;
+
+        let data = await Product.findById(itemId, 'quantity');
+
+        if(data.quantity < quantityRequest) {
+            return {
+                message: 'Estoque indisponivel',
+                quantityAvaliable: data.quantity
+            }
+        } else {
+            return null;
+        }
+
+    }
+}
+
 exports.create = async(data) => {
     var order = new Order(data);
     return await order.save();
