@@ -1,13 +1,8 @@
 <template>
   <div id="app">
-    <header >
-      <input type="text" v-model="msg">
-      <p> {{msg}} </p>
-    </header>
-    <router-link to="/products" @click="printaAlgo()">Products</router-link>
-    <router-link to="/">Home</router-link>
+    <app-header id="app-header"></app-header>
     <router-view/>
-    <footer>Meu footer</footer>
+    <!-- <footer>Meu footer</footer> -->
   </div>
 </template>
 
@@ -16,24 +11,47 @@ export default {
   name: 'App',
   data() {
     return {
-      msg: '',
     };
   },
   methods: {
-    printaAlgo() {
-      console.log('aaaaaa');
-    },
   },
 };
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  * {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+  }
+
+  #app {
+    display: grid;
+    /* grid-template-columns: 3fr 1fr; */
+    /* grid-template-rows: 12vh 70vh 18vh; */
+    grid-template-areas: "main-header main-header"
+                         "main aside-app"
+                         "footer-app footer-app"
+  }
+
+  #app-header {
+    grid-area: main-header;
+  }
+
+  main {
+    background-color: blue;
+    grid-area: main;
+  }
+
+  aside {
+    background-color: green;
+    grid-area: aside-app;
+    min-width: 200px;
+  }
+
+  footer {
+    background-color: red;
+    grid-area: footer-app;
+
+  }
 </style>
