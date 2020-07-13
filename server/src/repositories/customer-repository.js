@@ -13,7 +13,7 @@ exports.authenticate = async(data) => {
     const res = await Customer.findOne({
         email: data.email,
         password: md5(data.password + global.SALT_KEY)
-    }, 'name email phone address image roles pets');
+    }, 'name email phone address image roles pets token');
     return res;
 }
 

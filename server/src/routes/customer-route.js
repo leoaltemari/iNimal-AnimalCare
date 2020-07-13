@@ -6,7 +6,7 @@ const controller = require('../controllers/customer-controller');
 const authService = require('../services/auth-service');
 
 // GET
-router.get('/authenticate', controller.authenticate);
+router.get('/authenticate/:email/:password', controller.authenticate);
 router.get('/:id', controller.getById);
 
 // POST

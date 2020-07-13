@@ -22,13 +22,11 @@ exports.uploadImage = upload.single('file');
 // Controllers
 exports.authenticate = async (req, res,  next) => {
     try {
-        const customer = await repository.authenticate(req.body);
-        
+        const customer = await repository.authenticate(req.params);
         if(!customer) {
-            res.status(404).send({ messsage: 'Usuário ou senha inválidos!' });
+            res.status(200).send({ message: 'Email ou senha inválidos!' });
             return;
         }
-    
         // Generates a token to the user 
         const token = await authService.generateToken({
             id: customer._id,
@@ -75,7 +73,7 @@ exports.post = async (req, res, next) => {
                 password: md5(req.body.password + global.SALT_KEY),
                 roles: ['user']
             });
-            res.status(201).send({ message: "Cliente cadastrado com sucesso." });
+            res.status(201).send({ message: "Cadastro efetuado com sucesso" });
         } else {
             res.status(200).send( customerValidator.errors() );
         }

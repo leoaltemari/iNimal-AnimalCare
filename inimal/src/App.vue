@@ -1,8 +1,7 @@
 <template>
   <div id="app">
     <app-header id="app-header"></app-header>
-    <router-view/>
-    <!-- <footer>Meu footer</footer> -->
+    <router-view id="app-main"/>
   </div>
 </template>
 
@@ -28,30 +27,22 @@ export default {
   #app {
     display: grid;
     /* grid-template-columns: 3fr 1fr; */
-    /* grid-template-rows: 12vh 70vh 18vh; */
-    grid-template-areas: "main-header main-header"
-                         "main aside-app"
-                         "footer-app footer-app"
+    /* grid-template-rows: 100vh; */
+    grid-template-areas: "main-header"
+                         "app-main"
   }
 
   #app-header {
     grid-area: main-header;
   }
 
-  main {
-    background-color: blue;
-    grid-area: main;
+  body {
+    grid-area: app-main;
+    background-image: url('assets/img/inimal-bkg.jpg');
+    /* background-attachment: */
+    /* background-size: cover; */
+    background-repeat: repeat-y;
+    height: 88vh;
   }
 
-  aside {
-    background-color: green;
-    grid-area: aside-app;
-    min-width: 200px;
-  }
-
-  footer {
-    background-color: red;
-    grid-area: footer-app;
-
-  }
 </style>

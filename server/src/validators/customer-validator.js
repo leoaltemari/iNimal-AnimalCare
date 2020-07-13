@@ -34,7 +34,7 @@ CustomerValidation.prototype.postValidation = (data) => {
     validator.isEmail(data.email, 'O email deve estar no formato user@domain.com');
     
     // Phone validator
-    validator.hasMinLen(data.phone, 11, 'O número de telefone deve estar no formato (dd) 9999-9999');
+    validator.hasMinLen(data.phone, 10, 'O número de telefone deve estar no formato (dd) 9999-9999');
     validator.hasMaxLen(data.phone, 12, 'O número de telefone deve estar no formato (dd) 9999-9999');
 
     // Password validator

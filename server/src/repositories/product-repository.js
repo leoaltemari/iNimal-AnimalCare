@@ -8,7 +8,7 @@ exports.get = async () => {
     const query = { active: true };
     const res = await Product.find(
         query,
-        'name price description image quantity category'
+        'name price description image quantity category animal'
     );
     return res;
 }

@@ -10,7 +10,7 @@
       <div class="header-items search-box">
         <input type="text" placeholder="O que você procura?" v-model="search"
         @keyup="searchFor">
-        <routerLink tag="tr" :event="['click', 'keypress.enter']" to="/search"></routerLink>
+        <routerLink to="/search" id="search-btn"></routerLink>
       </div>
       <div class="links">
         <div class="header-items link">
@@ -39,21 +39,27 @@ export default {
     return {
       // Variaveis aqui
       search: '',
-      searchLink: ''
+      searchLink: '',
+      butoon: '',
     };
   },
   methods: {
     searchFor(event) {
+      // Change to search page pressing ENTER
       let key = event.which || event.keyCode;
       
+      if(key === 13) {
+        const btn = document.getElementById('search-btn');
+        btn.click(); 
+      } 
     },
   },
 };
 </script>
 
 <style>
-@media (max-width: 1020px) 
-{
+/* Responsive header */
+@media (max-width: 1075px) {
   .main-header {
     grid-template-columns: 1fr!important;
     grid-template-rows: 10vh 10vh 10vh;
@@ -81,6 +87,7 @@ export default {
   grid-template-columns: 1fr 2fr 3fr;
 }
 
+/* Search box */
 .search-box {
   text-align: left;
   box-sizing: border-box;
@@ -108,6 +115,7 @@ export default {
   box-shadow: 0px 0px 10px rgb(137, 137, 255);
 }
 
+/* Links to  other pages */
 .links {
   display: flex;
 }
@@ -131,6 +139,7 @@ export default {
   text-decoration: underline;
 }
 
+/* Page logo */
 .logo {
   margin-top: 10px;
 }
@@ -142,11 +151,13 @@ export default {
   box-sizing: border-box;
 }
 
+/* Chart logo */
 .chart {
   position:relative;
   top: -10px;
   box-sizing: border-box;
 }
+
 .chart img {
   height: 40px;
   width: 40px;

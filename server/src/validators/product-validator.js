@@ -38,7 +38,7 @@ ProductValidation.prototype.postValidation = (data) => {
     
     // Description validator
     validator.hasMinLen(data.description, 10, 'Descriçãodeve conter no mínimo 10 letras');
-    validator.hasMaxLen(data.description, 50, 'Descrição deve conter no máximo 50 letras');
+    validator.hasMaxLen(data.description, 500, 'Descrição deve conter no máximo 500 letras');
 
     if(validator.isValid()) {
         return true;
@@ -63,7 +63,7 @@ ProductValidation.prototype.putValidation = (data) => {
     // Check description
     if(data.description) {
         validator.hasMinLen(data.description, 10, 'Descriçãodeve conter no mínimo 10 letras');
-        validator.hasMaxLen(data.description, 50, 'Descrição deve conter no máximo 50 letras');
+        validator.hasMaxLen(data.description, 400, 'Descrição deve conter no máximo 400 letras');
     }
     // Check quantity
     if(data.quantity) {
