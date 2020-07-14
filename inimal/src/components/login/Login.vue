@@ -13,11 +13,12 @@
             @keyup="sendLoginWithEnter">
         </div>
         <div class="login-field error" v-show="loginErrors">
-            <h3>{{loginErrors }}</h3>
+            <h3>{{ loginErrors }}</h3>
         </div>
-        <router-link to="/login/user" id="login-success"></router-link>
+        <router-link to="/" id="login-user"></router-link>
+        <router-link to="/login/admin" id="login-admin"></router-link>
         <div class="login-submit"> 
-            <input type="button" value="Entrar" @click="authenticate" id="login-btn">
+            <input type="button" value="Entrar" @click.stop.prevent="authenticate()" id="login-btn">
         </div>
       </div>
       <div class="login-page">
@@ -66,6 +67,8 @@
 
 <script>
 import axios from 'axios';
+import Bus from '../bus';
+
 export default {
 name: 'Login',
   data() {
@@ -93,6 +96,10 @@ name: 'Login',
   methods: {
     async authenticate(event) {
       this.loginErrors = [];
+      if(!this.loginFields.email || !this.loginFields.password) {
+        this.loginErrors = 'Os campos de email ou senha precisam ser preenchidos!';
+        return;
+      }
       try {
         await axios.get(`http://localhost:8081/customers/authenticate/${this.loginFields.email}/${this.loginFields.password}`)
         .then(response => {
@@ -100,8 +107,16 @@ name: 'Login',
             this.loginErrors = response.data.message;
           } else {
             this.user = response.data.data;
-            this.token = response.data.token;
-            const loginSuccess = document.getElementById('login-success').click();
+            this.user.token = response.data.token;
+
+            if(this.user) {
+              Bus.$emit('logged', this.user);
+            }
+            if(this.user.roles[0] === 'admin') {
+              const loginAdmin = document.getElementById('login-admin').click();
+            } else {
+              const loginUser = document.getElementById('login-user').click();
+            }
           }
         });
       } catch(err) {

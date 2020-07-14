@@ -1,6 +1,6 @@
 <template>
   <div>
-      <h1>{{ user }}</h1>
+      <h1>ADMIN</h1>
   </div>
 </template>
 
@@ -8,14 +8,16 @@
 import Bus from '../bus';
 
 export default {
-  name: 'User',
-  props: {
-    user: { type: Object }
-  },
+  name: 'Admin',
   data() {
     return {
 
     }
+  },
+  mounted() {
+    // Bus.$on('logged', (value) => {
+    //   console.log(value);
+    // });
   },
   methods: {
 

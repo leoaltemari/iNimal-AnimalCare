@@ -1,15 +1,27 @@
 <template>
   <div id="app">
     <app-header id="app-header"></app-header>
-    <router-view id="app-main"/>
+    <router-view id="app-main"  :user="user" />
   </div>
 </template>
 
 <script>
+import Bus from './components/bus'
 export default {
   name: 'App',
+  data: () => {
+    return {
+      user: {},
+    };
+  },
+  mounted() {
+    Bus.$on('logged', (value) => {
+      this.user = value;
+    });
+  },
   data() {
     return {
+      title: 'hallo',
     };
   },
   methods: {
@@ -26,8 +38,6 @@ export default {
 
   #app {
     display: grid;
-    /* grid-template-columns: 3fr 1fr; */
-    /* grid-template-rows: 100vh; */
     grid-template-areas: "main-header"
                          "app-main"
   }

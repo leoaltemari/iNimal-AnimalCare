@@ -1,28 +1,39 @@
 <template>
   <div id="app-header">
     <header class="main-header">
-      <div class="header-items logo">
+      <div class="logo">
         <router-link to="/">
           <img src="../assets/img/inimal_logo.jpeg" alt="">
         </router-link>
         
       </div>
-      <div class="header-items search-box">
+      <div class="search-box">
         <input type="text" placeholder="O que você procura?" v-model="search"
         @keyup="searchFor">
         <routerLink to="/search" id="search-btn"></routerLink>
       </div>
       <div class="links">
-        <div class="header-items link">
+        <div class="link">
           <router-link to="/products">Produtos</router-link>
         </div>
-        <div class="header-items link">
+        <div class="link">
           <router-link to="/services">Serviços</router-link>
         </div>
-        <div class="header-items link">
+        <div class="link" v-if="user.name === undefined">
           <router-link to="/login">Login</router-link>
         </div>
-        <div class="header-items chart">
+        <div class="link user" v-else>
+          <div class="user-header">
+            <router-link to="/login/user">
+              <h1>{{user.name}}</h1>
+              <h3>{{user.email}}</h3>
+              <h5>{{user.phone}}</h5>
+            </router-link>
+            <router-link to="/" id="to-home-page"></router-link>
+            <a @click.stop.prevent="logOut()" class="logout">Sair</a>
+          </div>
+        </div>
+        <div class="chart">
           <router-link to="/chart">
             <img src="../assets/img/carrinho_btn.png" alt="">
           </router-link>
@@ -33,15 +44,20 @@
 </template>
 
 <script>
+import Bus from './bus'
 export default {
   name: 'Header',
   data() {
     return {
       // Variaveis aqui
       search: '',
-      searchLink: '',
-      butoon: '',
+      user: {},
     };
+  },
+  mounted() {
+    Bus.$on('logged', (value) => {
+      this.user = value;
+    });
   },
   methods: {
     searchFor(event) {
@@ -49,9 +65,18 @@ export default {
       let key = event.which || event.keyCode;
       
       if(key === 13) {
-        const btn = document.getElementById('search-btn');
-        btn.click(); 
+        if(this.search) {
+          Bus.$emit('search', this.search);
+          const btn = document.getElementById('search-btn');
+          btn.click();
+        }
       } 
+    },
+    logOut() {
+      this.user = {};
+      this.user.name = undefined;
+
+      const homeBtn = document.getElementById('to-home-page').click();
     },
   },
 };
@@ -62,7 +87,7 @@ export default {
 @media (max-width: 1075px) {
   .main-header {
     grid-template-columns: 1fr!important;
-    grid-template-rows: 10vh 10vh 10vh;
+    grid-template-rows: 10vh 10vh 13vh;
     text-align: center;
    }
    .links {
@@ -76,6 +101,15 @@ export default {
    .logo {
      grid-column-start: 1;
      grid-column-end: 2;
+   }
+
+   .user {
+     padding: 0px!important;
+     position: relative;
+   }
+   .user-header {
+     padding: 0px!important;
+     margin: 0px!important;
    }
 }
 #app-header {
@@ -169,4 +203,47 @@ export default {
   transform: rotate(-30deg);
   cursor:pointer;
 }
+
+#to-home-page {
+  position: relative;
+  left: 1000px;
+}
+
+.user {
+  display: grid;
+  margin: 0px;
+}
+.user-header {
+  position: relative;
+  text-align: center;
+  padding: 5px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 5px;
+}
+.user-header a {
+  font-size: 10px;
+  padding: 0;
+  margin: 0;
+}
+
+.user-header a:hover {
+  cursor: pointer;
+}
+
+.user-header .logout {
+  padding-left: 10px;
+  font-size: 12px;
+  padding-right: 10px;
+  border: 1px solid blue;
+  border-radius: 10px;
+  transition: 0.5s;
+}
+
+.user-header .logout:hover {
+  background-color: blue;
+  color: white;
+}
+
 </style>
