@@ -1,51 +1,51 @@
 <template>
   <div class="main">
     <div class="text-content logo">
-      <img src="../assets/img/inimal_logo.jpeg" alt="">
+      <img src="../assets/img/logos/inimal_logo.jpeg" alt="">
     </div>
     <div class="text-content">
       <h2>Quem somos</h2>
-      <img src="../assets/img/osso.png" alt="" class="img1">
+      <img src="../assets/img/icons/osso.png" alt="" class="img1">
       <p>A iNimal é uma das maiores redes de vendas de produtos e serviços 
         voltadas especialmente para os cuidados do animal de estimação.</p>
-      <img src="../assets/img/osso.png" alt="" class="img2">
+      <img src="../assets/img/icons/osso.png" alt="" class="img2">
     </div>
     <div class="text-content">
       <h2>Confira nossos produtos</h2>
-      <img src="../assets/img/osso.png" alt="" class="img1">
+      <img src="../assets/img/icons/osso.png" alt="" class="img1">
       <p>Aqui na iNimal você pode econtrar diversos itens para o seu pet, 
         como coleiras, ração, brinquedos, entre outros. Contamos 
         com um leque de variedades em rações, para qualquer tipo de animal, 
         das melhores marcas.</p>
-      <img src="../assets/img/osso.png" alt="" class="img2">
+      <img src="../assets/img/icons/osso.png" alt="" class="img2">
     </div>
     <div class="text-content">
       <h2>Confira nossos serviços</h2>
-      <img src="../assets/img/osso.png" alt="" class="img1">
+      <img src="../assets/img/icons/osso.png" alt="" class="img1">
       <p>Nos preocupamos sempre com o bem estar do seu pet, por isso possuimos 
         uma vasta gama de serviços que podemos oferecer para o seu pet. Também 
         nos preucupamos com o bem estar dele, por isso oferecemos para você serviços
         de banho e tosa.</p>
-      <img src="../assets/img/osso.png" alt="" class="img2">
+      <img src="../assets/img/icons/osso.png" alt="" class="img2">
     </div>
     <div class="text-content">
       <h2>Nossas redes sociais</h2>
-      <img src="../assets/img/osso.png" alt="" class="img1">
+      <img src="../assets/img/icons/osso.png" alt="" class="img1">
       <div class="logos">
         <a href="https://www.facebook.com" target="blank">
-          <img src="../assets/img/fb_logo.png" alt="">
+          <img src="../assets/img/logos/fb_logo.png" alt="">
         </a>
         <a href="https://www.whatsapp.com/?lang=pt_br" target="blank">
-          <img src="../assets/img/wpp_logo.png" alt="">
+          <img src="../assets/img/logos/wpp_logo.png" alt="">
         </a>
         <a href="https://www.instagram.com/" target="blank">
-          <img src="../assets/img/insta_logo.png" alt="">
+          <img src="../assets/img/logos/insta_logo.png" alt="">
         </a>
         <a href="https://www.messenger.com" target="blank">
-          <img src="../assets/img/msg_logo.png" alt="">
+          <img src="../assets/img/logos/msg_logo.png" alt="">
         </a>
       </div>
-      <img src="../assets/img/osso.png" alt="" class="img2">
+      <img src="../assets/img/icons/osso.png" alt="" class="img2">
     </div>
   </div>
 </template>
@@ -53,7 +53,7 @@
 <script>
 export default {
   name: 'MainContent',
-};
+}
 </script>
 
 <style scoped>

@@ -3,7 +3,7 @@
     <div id="products-content">
       <main id="products-container">  
         <div class="item" v-for="product in products" :key="product.id">
-          <img src="../assets/img/inimal_logo.jpeg" alt="">
+          <img src="../assets/img/logos/inimal_logo.jpeg" alt="">
           <h2>{{ product.name }}</h2>
           <h4>{{ product.description }}</h4>
           <h3>Preço: R${{ product.price }}</h3>
@@ -19,6 +19,9 @@ import axios from 'axios';
 
 export default {
   name: 'Products',
+  props: {
+    user: { type: Object }
+  },
   data() {
     return {
       // Variaveis aqui
@@ -37,14 +40,12 @@ export default {
     }
   },
   methods: {
-    checkBox() {
-      
-    },
+
   },
 };
 </script>
 
-<style>
+<style scoped>
   #products-content {
     display: flex;
     grid-template-areas: "main";

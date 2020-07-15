@@ -139,11 +139,12 @@ name: 'Login',
           await axios.post(url, data, headers)
           .then(response => {
             if(response.data.message) {
-              this.registerSuccess = response.data.messaage;
-            }
-            else if(response.data[0].message) {
-              for(let i = 0; i < response.data.length;i++) 
+              this.registerSuccess = response.data.message;
+              console.log(this.registerSuccess);
+            } else if(response.data[0].message) {
+              for(let i = 0; i < response.data.length;i++) { 
                 this.registerErrors.push(response.data[i].message);
+              }
             }
           });
       } catch(err) {
@@ -256,14 +257,16 @@ name: 'Login',
   }
 
   .error {
-    color: rgb(255, 143, 143);
+    text-align: center;
+    color: rgb(255, 122, 122);
     font-size: 15px;
     margin-bottom: 15px;
     transition: 1s;
   }
 
   .success {
-    color: rgb(101, 253, 152);
+    text-align: center;
+    color: rgb(80, 255, 138);
     font-size: 15px;
     margin-bottom: 15px;
     transition: 1s;

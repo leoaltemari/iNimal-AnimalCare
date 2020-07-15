@@ -3,7 +3,7 @@
     <header class="main-header">
       <div class="logo">
         <router-link to="/">
-          <img src="../assets/img/inimal_logo.jpeg" alt="">
+          <img src="../assets/img/logos/inimal_logo.jpeg" alt="">
         </router-link>
         
       </div>
@@ -27,7 +27,6 @@
             <router-link to="/login/user">
               <h1>{{user.name}}</h1>
               <h3>{{user.email}}</h3>
-              <h5>{{user.phone}}</h5>
             </router-link>
             <router-link to="/" id="to-home-page"></router-link>
             <a @click.stop.prevent="logOut()" class="logout">Sair</a>
@@ -35,7 +34,7 @@
         </div>
         <div class="chart">
           <router-link to="/chart">
-            <img src="../assets/img/carrinho_btn.png" alt="">
+            <img src="../assets/img/icons/carrinho_icon.png" alt="">
           </router-link>
         </div>
       </div>
@@ -76,18 +75,19 @@ export default {
       this.user = {};
       this.user.name = undefined;
 
+      Bus.$emit('logged', this.user);
       const homeBtn = document.getElementById('to-home-page').click();
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
 /* Responsive header */
 @media (max-width: 1075px) {
   .main-header {
     grid-template-columns: 1fr!important;
-    grid-template-rows: 10vh 10vh 13vh;
+    grid-template-rows: 10vh 10vh 10vh;
     text-align: center;
    }
    .links {
@@ -104,7 +104,8 @@ export default {
    }
 
    .user {
-     padding: 0px!important;
+     padding-left: 0px!important;
+     padding-right: 0px!important;
      position: relative;
    }
    .user-header {
@@ -223,7 +224,7 @@ export default {
   margin-bottom: 5px;
 }
 .user-header a {
-  font-size: 10px;
+  font-size: 8px;
   padding: 0;
   margin: 0;
 }
@@ -233,6 +234,8 @@ export default {
 }
 
 .user-header .logout {
+  position:relative;
+  top:5px;
   padding-left: 10px;
   font-size: 12px;
   padding-right: 10px;

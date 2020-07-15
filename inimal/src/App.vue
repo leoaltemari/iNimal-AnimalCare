@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <app-header id="app-header"></app-header>
-    <router-view id="app-main"  :user="user" />
+    <router-view id="app-main" :user="savedUser"/>
   </div>
 </template>
 
@@ -11,12 +11,12 @@ export default {
   name: 'App',
   data: () => {
     return {
-      user: {},
+      savedUser: {},
     };
   },
   mounted() {
     Bus.$on('logged', (value) => {
-      this.user = value;
+      this.savedUser = value;
     });
   },
   data() {

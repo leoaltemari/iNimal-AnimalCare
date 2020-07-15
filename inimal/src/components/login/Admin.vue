@@ -1,14 +1,15 @@
 <template>
   <div>
-      <h1>ADMIN</h1>
+      <h1>{{ user._id }}</h1>
   </div>
 </template>
 
 <script>
-import Bus from '../bus';
-
 export default {
   name: 'Admin',
+  props: {
+    user: { type: Object }
+  },
   data() {
     return {
 

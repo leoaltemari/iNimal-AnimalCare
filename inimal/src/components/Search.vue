@@ -3,17 +3,15 @@
 </template>
 
 <script>
-import Bus from './bus'
 export default {
+  name: 'Search',
+  props: {
+    user: { type: Object }
+  },
   data: () => {
     return {
 
     };
-  },
-  beforeCreate() {
-    Bus.$on('search', (value) => {
-      console.log(value);
-    });
   },
 }
 </script>
