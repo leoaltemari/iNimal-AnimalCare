@@ -90,10 +90,17 @@ exports.put = async (req, res, next) => {
     try {
         const customerValidator = new CustomerValidator();
         if(customerValidator.putValidation(req.body)) {
-            await repository.update(req.params.id, req.body, req.file);
-            res.status(200).send({
-                message: 'Informações atualizadas com sucesso!'
-            });
+            const res1 = await repository.update(req.params.id, req.body, req.file);
+            if(res1 === null) {
+                res.status(200).send([{
+                    message: 'Este email já está em uso!'
+                }]);
+            } else { 
+                res.status(200).send({
+                    message: 'Informações atualizadas com sucesso!'
+                });
+                next();
+            }
         } else {
             res.status(200).send(customerValidator.errors());
         }

@@ -66,7 +66,7 @@ CustomerValidation.prototype.putValidation = (data) => {
 
     // Phone validator
     if(data.phone) {
-        validator.hasMinLen(data.phone, 11, 'O número de telefone deve estar no formato (dd) 9999-9999');
+        validator.hasMinLen(data.phone, 10, 'O número de telefone deve estar no formato (dd) 9999-9999');
         validator.hasMaxLen(data.phone, 12, 'O número de telefone deve estar no formato (dd) 9999-9999');
     }
 

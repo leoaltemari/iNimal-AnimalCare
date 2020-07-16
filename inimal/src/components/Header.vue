@@ -113,6 +113,12 @@ export default {
      margin: 0px!important;
    }
 }
+
+@media (max-width: 1025px) {
+  .user-header h3 {
+    display: none;
+  }
+}
 #app-header {
   box-sizing: border-box;
   background-color: yellow;

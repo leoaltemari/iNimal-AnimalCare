@@ -39,9 +39,14 @@ exports.update = async (id, body, file) => {
     }
     if(body.email) {
         query.email = body.email;
+        const findEmail = await Customer.findOne({ email: body.email });
+        if(findEmail != null) {
+            return null;
+        }
     }
+
     if(body.password) {
-        query.password = body.password;
+        query.password = md5(body.password + global.SALT_KEY);
     }
     if(body.address) {
         query.address = body.address;

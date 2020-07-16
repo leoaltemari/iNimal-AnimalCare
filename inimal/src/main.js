@@ -9,7 +9,6 @@ import Chart from './components/Chart';
 import Search from './components/Search';
 import Login from './components/login/Login';
 import User from './components/login/User';
-import Admin from './components/login/Admin';
 
 // Components initializer
 Vue.component('app-main-content', MainContent);
@@ -18,7 +17,6 @@ Vue.component('app-products', Products);
 Vue.component('app-services', Services);
 Vue.component('app-login', Login);
 Vue.component('app-user', User);
-Vue.component('app-admin', Admin);
 Vue.component('app-chart', Chart);
 Vue.component('app-search', Search);
 

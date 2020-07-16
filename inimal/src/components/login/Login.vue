@@ -1,26 +1,29 @@
 <template>
   <div id="login">
     <div id="login-content">
+      <!-- Login -->
       <div class="login-page login">
         <h1>Login</h1>
+        <!-- Email -->
         <div class="login-field"> 
             <h2>Email</h2>
             <input type="text" placeholder="Digite seu email" v-model="loginFields.email">
         </div>
+        <!-- Password -->
         <div class="login-field"> 
             <h2>Senha</h2>
             <input type="password" placeholder="Digite sua senha" v-model="loginFields.password"
             @keyup="sendLoginWithEnter">
         </div>
-        <div class="login-field error" v-show="loginErrors">
+        <div class="login-field error" v-show="loginErrors && errorDisplay">
             <h3>{{ loginErrors }}</h3>
         </div>
-        <router-link to="/" id="login-user"></router-link>
-        <router-link to="/login/admin" id="login-admin"></router-link>
+        <router-link to="/login/user" id="login-user"></router-link>
         <div class="login-submit"> 
             <input type="button" value="Entrar" @click.stop.prevent="authenticate()" id="login-btn">
         </div>
       </div>
+      <!-- Register -->
       <div class="login-page">
         <h1>Cadastro</h1>
         <div class="cadastro">
@@ -91,13 +94,17 @@ name: 'Login',
       registerSuccess: "",
       user: {},
       logged: false,
+      errorDisplay: false,
     };
   },
   methods: {
     async authenticate(event) {
       this.loginErrors = [];
+      this.errorDisplay = false;
+
       if(!this.loginFields.email || !this.loginFields.password) {
         this.loginErrors = 'Os campos de email ou senha precisam ser preenchidos!';
+        this.errorDisplay = true;
         return;
       }
       try {
@@ -105,6 +112,7 @@ name: 'Login',
         .then(response => {
           if(response.data.message) {
             this.loginErrors = response.data.message;
+            this.errorDisplay = true;
           } else {
             this.user = response.data.data;
             this.user.token = response.data.token;
@@ -112,11 +120,7 @@ name: 'Login',
             if(this.user) {
               Bus.$emit('logged', this.user);
             }
-            if(this.user.roles[0] === 'admin') {
-              const loginAdmin = document.getElementById('login-admin').click();
-            } else {
-              const loginUser = document.getElementById('login-user').click();
-            }
+            const loginUser = document.getElementById('login-user').click();
           }
         });
       } catch(err) {
@@ -140,7 +144,6 @@ name: 'Login',
           .then(response => {
             if(response.data.message) {
               this.registerSuccess = response.data.message;
-              console.log(this.registerSuccess);
             } else if(response.data[0].message) {
               for(let i = 0; i < response.data.length;i++) { 
                 this.registerErrors.push(response.data[i].message);
@@ -173,7 +176,7 @@ name: 'Login',
 }
 </script>
 
-<style>
+<style scoped>
   @media (max-width: 1250px) {
     #login-content {
       grid-template-columns: 1fr!important;
