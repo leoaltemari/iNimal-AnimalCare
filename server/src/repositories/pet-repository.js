@@ -28,7 +28,7 @@ exports.update = async (id, body, file) => {
     const query = {
     };
 
-    const searchQuery = { owner: id, name: 'waltinho' };
+    const searchQuery = { owner: id, _id: body.id };
 
     if(body.name) {
         query.name = body.name;
@@ -59,8 +59,8 @@ exports.update = async (id, body, file) => {
     return res;
 }
 
-exports.delete = async (ownerId, petName) => {
-    const query = {owner: ownerId, name: petName };
+exports.delete = async (id) => {
+    const query = {_id: id};
     const res = await Pet.findOneAndRemove(query);
     return res;
 }

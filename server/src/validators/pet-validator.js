@@ -24,16 +24,23 @@ PetValidation.prototype.postValidation = (data) => {
     if(!validator.isValid()) {
         return false;
     }
-    
+
+
     // Name validator
     if(data.name) {
-        validator.hasMaxLen(data.name, 50, 'O nome deve possuir máximo de 50 caracteres');
+        data.name = data.name.replace(/\s+/g, ' '); // replace bouble white spaces from name
+        validator.hasMaxLen(data.name, 20, 'O nome deve possuir máximo de 20 caracteres');
     }
 
     // Race validator
     if(data.race) {
-        validator.hasMinLen(data.race, 5, 'A raça deve possuir mínimo de 5 caracteres');
-        validator.hasMaxLen(data.race, 50, 'A raça deve possuir máximo de 50 caracteres');
+        validator.hasMinLen(data.race, 3, 'A raça deve possuir mínimo de 3 caracteres');
+        validator.hasMaxLen(data.race, 30, 'A raça deve possuir máximo de 30 caracteres');
+    }
+
+    // Age validator
+    if(data.age) {
+        validator.isLower(data.age, 1, 'Idade deve ser maior que 0');
     }
 
     if(validator.isValid()) {

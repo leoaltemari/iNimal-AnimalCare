@@ -68,6 +68,9 @@ exports.getByOwnerId = async (req, res, next) => {
 
 exports.checkPutData = async (req, res, next) => {
     const petValidator = new PetValidator();
+    if(req.body.age) {
+        req.body.age = parseInt(req.body.age, 10); 
+    }
     if(!petValidator.putValidation(req.body)) {
         res.status(200).send( petValidator.errors() );
     } else {
@@ -99,7 +102,7 @@ exports.put = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
     try {
-        const cb = await repository.delete(req.body.owner, req.body.name);
+        const cb = await repository.delete(req.params.id);
         if(cb === null) {
             res.status(200).send({
                 message: 'Pet não encontrado!'

@@ -7,6 +7,7 @@ import Chart from '@/components/Chart';
 import Search from '@/components/Search';
 import Login from '@/components/login/Login';
 import User from '@/components/login/User';
+import Admin from '@/components/login/Admin';
 
 Vue.use(Router);
 
@@ -46,6 +47,11 @@ export default new Router({
       path: '/login/user',
       name: 'User',
       component: User,
+    },
+    {
+      path: '/login/admin',
+      name: 'Admin',
+      component: Admin,
     },
   ],
 });

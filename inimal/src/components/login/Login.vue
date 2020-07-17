@@ -19,6 +19,7 @@
             <h3>{{ loginErrors }}</h3>
         </div>
         <router-link to="/login/user" id="login-user"></router-link>
+        <router-link to="/login/admin" id="login-admin"></router-link>
         <div class="login-submit"> 
             <input type="button" value="Entrar" @click.stop.prevent="authenticate()" id="login-btn">
         </div>
@@ -120,7 +121,12 @@ name: 'Login',
             if(this.user) {
               Bus.$emit('logged', this.user);
             }
-            const loginUser = document.getElementById('login-user').click();
+
+            if(this.user.roles[0] === 'admin') {
+              const loginAdmin = document.getElementById('login-admin').click();
+            } else {
+              const loginUser = document.getElementById('login-user').click();
+            }
           }
         });
       } catch(err) {
