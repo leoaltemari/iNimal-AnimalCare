@@ -1,16 +1,25 @@
 <template>
   <div>
     <h1>Chart</h1><br><br>
-    <h1>{{user.name}}</h1>
+    <ul>
+      <li v-for="item in chart" :key="item.product._id">
+        {{ item.product.name }}
+      </li>
+    </ul>
   </div>
  
 </template>
 
 <script>
+import axios from 'axios';
+import Bus from './bus';
 export default {
   name: 'Chart',
   props: {
-    user: { type: Object }
+    chart: { type: Array }
+  },
+  mounted() {
+
   },
   data: () => {
     return {
