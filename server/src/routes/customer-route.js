@@ -14,7 +14,7 @@ router.post('/', controller.post);
 
 // PUT
 router.put('/:id', authService.authorize, controller.put, controller.uploadImage);
-router.put('/admin/:value', authService.authorize, controller.putAdmin);
+router.put('/admin/:token', authService.isAdmin, controller.putAdmin);
 
 // DELETE
 router.delete('/', authService.isAdmin ,controller.delete);

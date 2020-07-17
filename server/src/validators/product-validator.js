@@ -22,7 +22,6 @@ ProductValidation.prototype.postValidation = (data) => {
     validator.isRequired(data.description, 'O campo Descrição é obrigatório');
     validator.isRequired(data.price, 'O campo Preço é obrigatório');
     validator.isRequired(data.quantity, 'O campo Quantidade é obrigatório');
-    validator.isRequired(data.tags, 'O campo Tags é obrigatório');
     
     // If one of the required fields is not completed
     if(!validator.isValid()) {

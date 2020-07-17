@@ -116,16 +116,15 @@ exports.put = async (req, res, next) => {
 exports.putAdmin = async(req, res, next) => {
     try {
         const email = req.body.email;
-        const value = req.params.value;
 
-        const cb = await repository.updateAdmin(email, value);
+        const cb = await repository.updateAdmin(email);
         if(cb === null) {
             res.status(200).send({ message: "Usuário não encontrado" });
         }
-        else if(value === 'true') {
-            res.status(200).send({ message: "O usuário agora é um admnistrador!" });
+        else if(cb.roles[0] === 'admin') {
+            res.status(200).send({ message: "O usuário agora é um administrador!" });
         } else {
-            res.status(200).send({ message: "O usuário não é mais um admnistrador!" });
+            res.status(200).send({ message: "O usuário não é mais um administrador!" });
         }
 
     } catch(err) {

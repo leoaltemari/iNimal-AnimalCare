@@ -72,14 +72,22 @@ exports.update = async (id, body, file) => {
 
 exports.updateAdmin = async (email, value) => {
     const query = { email: email };
+
     let update;
-    if(value === 'true') {
-        update = { roles: 'admin' }
-    } else {
-        update = { roles: 'user' }
+    
+    const res1 = await Customer.find(query, 'roles');
+    if(res1.length === 0) {
+        return null;
     }
-    const res = await Customer.findOneAndUpdate( query, update);
-    return res;
+
+    if(res1[0].roles[0] === 'user') {
+        update = { roles: 'admin' };
+    } else {
+        update = { roles: 'user' };
+    }    
+
+    const res2 = await Customer.findOneAndUpdate( query, update);
+    return res2;
 }
 
 exports.delete = async (id) => {

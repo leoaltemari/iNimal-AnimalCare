@@ -24,7 +24,11 @@
         </div>
         <div class="link user" v-else>
           <div class="user-header">
-            <router-link to="/login/user">
+            <router-link to="/login/user" v-if="user.roles[0] === 'user'">
+              <h1>{{user.name}}</h1>
+              <h3>{{user.email}}</h3>
+            </router-link>
+            <router-link to="/login/admin" v-else>
               <h1>{{user.name}}</h1>
               <h3>{{user.email}}</h3>
             </router-link>

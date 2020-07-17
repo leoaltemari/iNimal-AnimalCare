@@ -40,7 +40,14 @@ exports.getByTag = async (tag) => {
 }
 
 exports.create = async (body) => {
-    const product = new Product(body);
+    const data = body;
+    data.tags = [];
+    data.tags[0] = body.name;
+    data.tags[1] = body.price;
+    data.tags[2] = body.category;
+    data.tags[3] = body.animal;
+
+    const product = new Product(data);
     const res = await product.save();
     return res;
 }
