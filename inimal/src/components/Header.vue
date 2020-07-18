@@ -36,8 +36,8 @@
             <a @click.stop.prevent="logOut()" class="logout">Sair</a>
           </div>
         </div>
-        <div class="chart">
-          <router-link to="/chart">
+        <div class="Cart">
+          <router-link to="/Cart">
             <img src="../assets/img/icons/carrinho_icon.png" alt="">
           </router-link>
         </div>
@@ -165,7 +165,7 @@ export default {
   display: flex;
 }
 
-.link, .chart {
+.link, .Cart {
   padding: 10px;
   margin: 20px 40px 10px 40px;
 }
@@ -196,20 +196,20 @@ export default {
   box-sizing: border-box;
 }
 
-/* Chart logo */
-.chart {
+/* Cart logo */
+.Cart {
   position:relative;
   top: -10px;
   box-sizing: border-box;
 }
 
-.chart img {
+.Cart img {
   height: 40px;
   width: 40px;
   transition: 0.2s;
 }
 
-.chart img:hover {
+.Cart img:hover {
   border-bottom: 2px solid blue;
   transform: rotate(-30deg);
   cursor:pointer;

@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import MainContent from '@/components/MainApp';
 import Products from '@/components/Products';
 import Services from '@/components/Services';
-import Chart from '@/components/Chart';
+import Cart from '@/components/Cart';
 import Search from '@/components/Search';
 import Login from '@/components/login/Login';
 import User from '@/components/login/User';
@@ -34,9 +34,9 @@ export default new Router({
       component: Login,
     },
     {
-      path: '/chart',
-      name: 'Chart',
-      component: Chart,
+      path: '/Cart',
+      name: 'Cart',
+      component: Cart,
     },
     {
       path: '/search',

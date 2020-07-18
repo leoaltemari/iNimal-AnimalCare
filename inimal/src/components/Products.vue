@@ -61,16 +61,16 @@
 
             <input type="button" 
             value="Adicionar" 
-            @click="addToChart(product._id, index)"
+            @click="addToCart(product._id, index)"
             id="confirm"/>
           </div>
 
-          <!-- Add to chart -->
+          <!-- Add to Cart -->
           <div v-else>
             <input type="button" 
             value="Adicionar ao carrinho" 
             @click="showQuantity(product._id, index)"
-            id="add-chart"/>
+            id="add-Cart"/>
           </div>
         </div>
       </main>
@@ -93,7 +93,7 @@ export default {
       products: [],
       displayQuantityFlag: false,
       quantity: '',
-      chart: [],
+      Cart: [],
     };
   },
   async mounted() {
@@ -120,14 +120,14 @@ export default {
       this.products[index].price -= 1;
       this.products[index].status = true;
     },
-    addToChart(productId, index) {
+    addToCart(productId, index) {
       this.products[index].price += 1;
       this.products[index].price -= 1;
       this.products[index].status = false;
       
-      this.chart.push({product: this.products[index], quantity: this.quantity});
+      this.Cart.push({product: this.products[index], quantity: this.quantity});
       this.quantity = '';
-      Bus.$emit('item-in-chart', this.chart);
+      Bus.$emit('item-in-Cart', this.Cart);
     },
   },
 };
@@ -213,7 +213,7 @@ export default {
     margin-bottom:10px;
   }
 
-  #add-chart {
+  #add-Cart {
     height: 40px;
     margin: 5px 0px;
     font-weight: bold;
@@ -224,7 +224,7 @@ export default {
     transition: 0.3s;
   }
 
-  #add-chart:hover {
+  #add-Cart:hover {
     cursor:pointer;
     background-color:rgb(0, 160, 0);
     transform: scale(1.05);
