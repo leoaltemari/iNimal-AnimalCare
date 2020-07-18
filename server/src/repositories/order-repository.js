@@ -78,7 +78,7 @@ exports.getByDate = async (date) => {
             month: date.month,
             year: date.year,
         }
-    }, 'items totalPrice')
+    }, 'totalPrice hour number')
     .populate('customer', 'name')
     .populate('items.product', 'name')
     return res;

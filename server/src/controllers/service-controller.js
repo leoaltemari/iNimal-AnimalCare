@@ -127,10 +127,16 @@ exports.put = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
     try {
-        await repository.delete(req.params.id)
-        res.status(200).send({
-            message: 'Serviço removido com sucesso!'
-        })
+        const cb = await repository.delete(req.params.id);
+        if(cb === null) {
+            res.status(200).send([{
+                message: 'Serviço não encontrado!'
+            }]);
+        } else {
+            res.status(200).send({
+                message: 'Serviço removido com sucesso!'
+            });
+        }
     } catch(err) {
         res.status(500).send({ 
             message: 'Falha ao processar requisição',

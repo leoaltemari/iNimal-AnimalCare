@@ -39,7 +39,7 @@
           </div>
           <!-- CONFIG button -->
           <div class="user-data config"> 
-            <a @click.stop.prevent="enableConfig()">
+            <a @click.stop.prevent="enableConfig()" class="rotate">
               <img src="../../assets/img/icons/config_icon.png" alt="">
               Configurações
             </a>
@@ -121,7 +121,7 @@
         
         <!-- Stock manager -->
         <aside id="stock-manager">
-          <!-- PUT admin -->
+          <!-- make user an admin -->
           <div id="put-admin" class="stock-content"
           v-if="!productManager && !earnScreen && !serviceManager">
             <!-- make ADMIN -->
@@ -169,7 +169,7 @@
           </div>
 
           <!-- PRODUCT manager -->
-          <div id="product-manager" class="stock-content"
+          <div id="product-manager" class="stock-content scroll"
           v-if="productManager && !earnScreen && !serviceManager">
             <!-- page title -->
             <h1>Gerenciamento de Produtos</h1>
@@ -182,7 +182,8 @@
               </a>
             </div>
             
-            <div>
+            <!-- ADD product -->
+            <div id="add-product">
               <h2 style="margin:10px; text-decoration:underline;">Adicionar Produto</h2>
               <input type="file" name="file">
               <div class="manager-item">
@@ -224,17 +225,86 @@
               </div>
               <div class="user-data config config-data"> 
                 <a @click.stop.prevent="postProductFunc()">
+                  <img src="../../assets/img/icons/add_icon.png" alt=""
+                  style="height: 20px;width:20px;">
                   Adicionar
+                </a>
+              </div>
+            </div>
+
+            <!-- UPDATE product -->
+            <div id="update-product">
+              <h2 style="margin:10px; text-decoration:underline;">Atualizar Produto</h2>
+              <input type="text" placeholder="ID do produto que gostaria alterar" v-model="putProduct.id">
+              <input type="file" name="file" style="margin-top: 10px;">
+              <div class="manager-item">
+                <input type="text" placeholder="Nome do produto" v-model="putProduct.name">
+                <input type="text" placeholder="Slug do produto(eg:nome-produto)" v-model="putProduct.slug">
+                <input type="text" placeholder="Descrição do produto" v-model="putProduct.description">
+                <input type="number" placeholder="Preço do produto(eg: 99.99)" v-model="putProduct.price">
+                <input type="number" placeholder="Quantidade do produto(eg: 10)" v-model="putProduct.quantity">
+              </div>
+              <!-- Display ERROR messages -->
+              <div class="error message" v-if="putProductError">
+                <ul>
+                  <li v-for="error in putProductErrors" :key="error.id">
+                    {{ error }}
+                  </li>
+                </ul>
+              </div>
+              <!-- Display SUCCESS messages -->
+              <div class="success message" v-if="putProductSuccess">
+                <ul>
+                  <li>
+                    {{ putProductMsg }}
+                  </li>
+                </ul>
+              </div>
+              <div class="user-data config config-data"> 
+                <a @click.stop.prevent="putProductFunc()">
+                  <img src="../../assets/img/icons/update_icon.png" alt=""
+                  style="height: 20px;width:20px;">
+                  Atualizar
+                </a>
+              </div>
+            </div>
+
+            <!-- DELETE product -->
+            <div id="delete-product">
+              <h2 style="margin:10px; text-decoration:underline;">Remover Produto</h2>
+              <input type="text" placeholder="ID do produto que gostaria remover" v-model="deleteProduct.id">
+              <!-- Display ERROR messages -->
+              <div class="error message" v-if="deleteProductError">
+                <ul>
+                  <li v-for="error in deleteProductErrors" :key="error.id">
+                    {{ error }}
+                  </li>
+                </ul>
+              </div>
+              <!-- Display SUCCESS messages -->
+              <div class="success message" v-if="deleteProductSuccess">
+                <ul>
+                  <li>
+                    {{ deleteProductMsg }}
+                  </li>
+                </ul>
+              </div>
+              <div class="user-data config config-data"> 
+                <a @click.stop.prevent="deleteProductFunc()" style="color:red;">
+                  <img src="../../assets/img/icons/rmv_icon.png" alt=""
+                  style="height: 20px;width:20px;">
+                  Remover
                 </a>
               </div>
             </div>
           </div>
 
           <!-- SERVICE manager -->
-          <div id="service-manager" class="stock-content"
+          <div id="service-manager" class="stock-content scroll"
           v-if="!productManager && !earnScreen && serviceManager">
             <!-- page title -->
             <h2>Gerenciamento de Serviços</h2>
+
             <!-- Go back link -->
             <div class="user-data config config-data"> 
               <a @click.stop.prevent="enableServiceManager()">
@@ -242,10 +312,111 @@
                   Voltar
               </a>
             </div>
+
+            <!-- ADD product -->
+            <div id="add-service">
+              <h2 style="margin:10px; text-decoration:underline;">Adicionar Serviço</h2>
+              <input type="file" name="file">
+              <div class="manager-item">
+                <input type="text" placeholder="Nome do serviço" v-model="postService.name">
+                <input type="text" placeholder="Descrição do serviço" v-model="postService.description">
+                <input type="text" placeholder="Responsável pelo serviço" v-model="postService.partner">
+                <input type="number" placeholder="Preço do serviço(eg: 99.99)" v-model="postService.price">
+              </div>
+              <!-- Display ERROR messages -->
+              <div class="error message" v-if="postServiceError">
+                <ul>
+                  <li v-for="error in postServiceErrors" :key="error.id">
+                    {{ error }}
+                  </li>
+                </ul>
+              </div>
+              <!-- Display SUCCESS messages -->
+              <div class="success message" v-if="postServiceSuccess">
+                <ul>
+                  <li>
+                    {{ postServiceMsg }}
+                  </li>
+                </ul>
+              </div>
+              <div class="user-data config config-data"> 
+                <a @click.stop.prevent="postServiceFunc()">
+                  <img src="../../assets/img/icons/add_icon.png" alt=""
+                  style="height: 20px;width:20px;">
+                  Adicionar
+                </a>
+              </div>
+            </div>
+
+            <!-- UPDATE product -->
+            <div id="update-service">
+              <h2 style="margin:10px; text-decoration:underline;">Atualizar Serviço</h2>
+              <input type="text" placeholder="ID do serviço que gostaria alterar" v-model="putService.id">
+              <input type="file" name="file" style="margin-top: 10px;">
+              <div class="manager-item">
+                <input type="text" placeholder="Nome do serviço" v-model="putService.name">
+                <input type="text" placeholder="Descrição do serviço" v-model="putService.description">
+                <input type="text" placeholder="Responsável pelo serviço" v-model="putService.partner">
+                <input type="number" placeholder="Preço do serviço(eg: 99.99)" v-model="putService.price">
+              </div>
+              <!-- Display ERROR messages -->
+              <div class="error message" v-if="putServiceError">
+                <ul>
+                  <li v-for="error in putServiceErrors" :key="error.id">
+                    {{ error }}
+                  </li>
+                </ul>
+              </div>
+              <!-- Display SUCCESS messages -->
+              <div class="success message" v-if="putServiceSuccess">
+                <ul>
+                  <li>
+                    {{ putServiceMsg }}
+                  </li>
+                </ul>
+              </div>
+              <div class="user-data config config-data"> 
+                <a @click.stop.prevent="putServiceFunc()">
+                  <img src="../../assets/img/icons/update_icon.png" alt=""
+                  style="height: 20px;width:20px;">
+                  Atualizar
+                </a>
+              </div>
+            </div>
+
+            <!-- DELETE product -->
+            <div id="delete-service">
+              <h2 style="margin:10px; text-decoration:underline;">Remover Serviço</h2>
+              <input type="text" placeholder="ID do serviço que gostaria remover" v-model="deleteService.id">
+              
+              <!-- Display ERROR messages -->
+              <div class="error message" v-if="deleteServiceError">
+                <ul>
+                  <li v-for="error in deleteServiceErrors" :key="error.id">
+                    {{ error }}
+                  </li>
+                </ul>
+              </div>
+              <!-- Display SUCCESS messages -->
+              <div class="success message" v-if="deleteServiceSuccess">
+                <ul>
+                  <li>
+                    {{ deleteServiceMsg }}
+                  </li>
+                </ul>
+              </div>
+              <div class="user-data config config-data"> 
+                <a @click.stop.prevent="deleteServiceFunc()" style="color:red;">
+                  <img src="../../assets/img/icons/rmv_icon.png" alt=""
+                  style="height: 20px;width:20px;">
+                  Remover
+                </a>
+              </div>
+            </div>
           </div>
 
           <!-- EARN screen -->
-          <div id="earn-screen" class="stock-content"
+          <div id="earn-screen" class="stock-content scroll"
           v-if="!productManager && earnScreen && !serviceManager">
             <!-- page title -->
             <h2>Tabela de ganhos</h2>
@@ -255,6 +426,40 @@
                 <img src="../../assets/img/icons/return_icon.png" alt="">
                   Voltar
               </a>
+            </div>
+            <div id="input-date">
+              <h2 style="margin:10px; text-decoration:underline;">Insira a data que gostaria de visualizar</h2>
+              <div class="date-items">
+                <div class="date-input">
+                  <h5>Dia</h5>
+                  <input type="number" placeholder="Digite o dia" v-model="earnScreen.day">
+                </div>
+                <div class="date-input">
+                  <h5>Mês</h5>
+                  <input type="number" placeholder="Digite o mês" v-model="earnScreen.month">
+                </div>
+                <div class="date-input">
+                  <h5>Ano</h5>
+                  <input type="number" placeholder="Digite o ano" v-model="earnScreen.year">
+                </div>
+                <div id="earn-table">
+                  <h2>Ganhos em : 10/10/2020</h2>
+                  <table>
+                    <tr>
+                      <th>Cliente</th>
+                      <th>Valor da compra</th>
+                      <th>Hora da compra</th>
+                      <th>Número do pedido</th>
+                    </tr>
+                    <tr>
+                      <td>nome</td>
+                      <td>preço</td>
+                      <td>hora</td>
+                      <td>num pedido</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
         </aside>
@@ -286,7 +491,7 @@ export default {
       updateUserSuccess: [],
       userErrors: false,
 
-      // Admin
+      // Admin(make an user an admin)
       putAdminEmail: '',
       removeAdminEmail: '',
       putAdminMsg: '',
@@ -298,14 +503,53 @@ export default {
       productManager: false,
       serviceManager: false,
       earnScreen: false,
+      
+      // PRODUCT
+      // Post product;
+      postProduct: {
+        category: 'Selecione uma categoria',
+        animal: 'Selecione um animal'
+      },
+      postProductMsg: '',
+      postProductErrors: [],
       postProductSuccess: false,
       postProductError: false,
 
-      // Post product;
-      postProduct: {},
-      postProductMsg: '',
-      postProductErrors: [],
+      // Put product;
+      putProduct: {},
+      putProductMsg: '',
+      putProductErrors: [],
+      putProductSuccess: false,
+      putProductError: false,
 
+      // Delete product
+      deleteProduct: {},
+      deleteProductMsg: '',
+      deleteProductErrors: [],
+      deleteProductSuccess: false,
+      deleteProductError: false,
+
+      // SERVICE 
+      // Post service;
+      postService: {},
+      postServiceMsg: '',
+      postServiceErrors: [],
+      postServiceSuccess: false,
+      postServiceError: false,
+
+      // Put service;
+      putService: {},
+      putServiceMsg: '',
+      putServiceErrors: [],
+      putServiceSuccess: false,
+      putServiceError: false,
+
+      // Delete service;
+      deleteService: {},
+      deleteServiceMsg: '',
+      deleteServiceErrors: [],
+      deleteServiceSuccess: false,
+      deleteServiceError: false,
 
     }
   },
@@ -317,11 +561,40 @@ export default {
       this.updateUserSuccess = [];
       this.userErrors = false;
     },
-    cleanManagerVariables() {
+    cleanProductManagerVariables() {
       // Cleaning product field
       this.postProductSuccess = false;
       this.postProductError = false;
-      this.postProduct = {};
+      this.postProduct = {
+        category: 'Selecione uma categoria',
+        animal: 'Selecione um animal'
+      };
+
+      this.putProductSuccess = false;
+      this.putProductError = false;
+      this.putProduct = {};
+
+      this.deleteProductSuccess = false;
+      this.deleteProductError = false;
+      this.deleteProduct = {};
+    },
+    cleanServiceManagerVariables() {
+      // Cleaning service field
+      this.postServiceSuccess = false;
+      this.postServiceError = false;
+      this.postService = {};
+
+      this.putServiceSuccess = false;
+      this.putServiceError = false;
+      this.putService = {};
+
+      this.deleteServiceSuccess = false;
+      this.deleteServiceError = false;
+      this.deleteService = {};
+    },
+    cleanManagerVariables() {
+      this.cleanProductManagerVariables();
+      this.cleanServiceManagerVariables();
     },
     enableProductManager() {
       this.productManager = !this.productManager;
@@ -386,7 +659,7 @@ export default {
       this.confirmPassword = '';
     },
 
-    // Admin
+    // Make an user an admin
     async putAdmin() {
       const admin = new Admin();
 
@@ -417,6 +690,7 @@ export default {
     }, 
 
     // Stock Manager
+    // Product
       // POST product
     async postProductFunc() {
       const admin = new Admin();
@@ -439,8 +713,146 @@ export default {
       } catch(err) {
         console.log(err); 
       }
-    }
+    },
+      // PUT product
+    async putProductFunc() {
+      const admin = new Admin();
 
+      if(!this.putProduct.id) {
+        this.putProductErrors[0] = 'Nenhuma ID foi inserida';
+        this.putProductError = true;
+        this.putProductSuccess = false;
+        return;
+      }
+
+      try {
+        // Parse number variables
+        this.putProduct.price = parseInt(this.putProduct.price, 10);
+        this.putProduct.quantity = parseInt(this.putProduct.quantity, 10);
+
+        // Make the post
+        const res = await admin.putProduct(this.putProduct, this.user.token);
+        if(res.status === 0) {
+          this.putProductMsg = res.data;
+          this.putProductError = false;
+          this.putProductSuccess = true;
+        } else {
+          this.putProductErrors = res.data;
+          this.putProductError = true;
+          this.putProductSuccess = false;
+        }
+      } catch(err) {
+        console.log(err); 
+      }
+    },
+      // DELETE product
+    async deleteProductFunc() {
+      const admin = new Admin();
+
+      if(!this.deleteProduct.id) {
+        this.deleteProductErrors[0] = 'Nenhuma ID foi inserida';
+        this.deleteProductError = true;
+        this.deleteProductSuccess = false;
+        return;
+      }
+
+      try {
+        // Make the post
+        const res = await admin.deleteProduct(this.deleteProduct, this.user.token);
+        if(res.status === 0) {
+          this.deleteProductMsg = res.data;
+          this.deleteProductError = false;
+          this.deleteProductSuccess = true;
+        } else {
+          this.deleteProductErrors = res.data;
+          this.deleteProductError = true;
+          this.deleteProductSuccess = false;
+        }
+      } catch(err) {
+        console.log(err); 
+      }
+    },
+
+    // Service
+      // POST service
+    async postServiceFunc() {
+      const admin = new Admin();
+      try {
+        // Parse number variables
+        this.postService.price = parseInt(this.postService.price, 10);
+
+        // Make the post
+        const res = await admin.postService(this.postService, this.user.token);
+        if(res.status === 0) {
+          this.postServiceMsg = res.data;
+          this.postServiceError = false;
+          this.postServiceSuccess = true;
+        } else {
+          this.postServiceErrors = res.data;
+          this.postServiceError = true;
+          this.postServiceSuccess = false;
+        }
+      } catch(err) {
+        console.log(err); 
+      }
+    },
+      // PUT service
+    async putServiceFunc() {
+      const admin = new Admin();
+
+      if(!this.putService.id) {
+        this.putServiceErrors[0] = 'Nenhuma ID foi inserida';
+        this.putServiceError = true;
+        this.putServiceSuccess = false;
+        return;
+      }
+
+      try {
+        // Parse number variables
+        this.putService.price = parseInt(this.putService.price, 10);
+
+        // Make the post
+        const res = await admin.putService(this.putService, this.user.token);
+        if(res.status === 0) {
+          this.putServiceMsg = res.data;
+          this.putServiceError = false;
+          this.putServiceSuccess = true;
+        } else {
+          this.putServiceErrors = res.data;
+          this.putServiceError = true;
+          this.putServiceSuccess = false;
+        }
+      } catch(err) {
+        console.log(err); 
+      }
+    },
+      // DELETE service
+    async deleteServiceFunc() {
+      const admin = new Admin();
+
+      if(!this.deleteService.id) {
+        this.deleteServiceErrors[0] = 'Nenhuma ID foi inserida';
+        this.deleteServiceError = true;
+        this.deleteServiceSuccess = false;
+        return;
+      }
+
+      try {
+        // Make the delete
+        const res = await admin.deleteService(this.deleteService, this.user.token);
+        if(res.status === 0) {
+          this.deleteServiceMsg = res.data;
+          this.deleteServiceError = false;
+          this.deleteServiceSuccess = true;
+        } else {
+          this.deleteServiceErrors = res.data;
+          this.deleteServiceError = true;
+          this.deleteServiceSuccess = false;
+        }
+      } catch(err) {
+        console.log(err); 
+      }
+    },
   }
 }
 </script>
@@ -655,16 +1067,17 @@ input[type="file"] {
 /* Stock config */
 .stock-content {
   text-align: center;
-  padding: 20px 0px;
-  overflow-y: scroll;
+  padding: 20px 30px;
 }
+
 .stock-content h1 {
   padding-bottom: 10px;
-  border-bottom: 1px solid rgb(179, 179, 179);
 }
 
 .stock-content h2 {
   font-size: 15px;
+  padding-top: 10px;
+  border-top: 1px solid rgb(179, 179, 179);
 }
 
 #put-admin {
@@ -695,6 +1108,14 @@ input[type="file"] {
   grid-template-columns: 1fr 1fr;
 }
 
+input, select {
+  overflow: hidden;
+}
+.manager-item input, select {
+  min-width: 250px;
+}
+
+
 #links {
   margin: 100px 0px;
 }
@@ -703,5 +1124,51 @@ input[type="file"] {
   font-size: 20px;
 }
 
+.scroll {
+  max-height: 530px;
+  overflow-y: scroll;
+}
+
+.date-items {
+  display: grid;
+}
+
+
+.date-input h5 {
+  text-align: center;
+}
+
+.date-input input {
+  max-width: 200px;
+}
+
+#earn-table {
+  margin: 10px;
+  text-align: center;
+}
+
+/* table */
+#earn-table table { 
+  border: 1px solid rgb(165, 165, 165);
+  border-radius: 10px;
+  table-layout: auto;
+}
+#earn-table table tr th, td {
+  padding: 5px;
+  width: 100px;
+}
+/* table  headers */
+#earn-table table tr {
+  padding: 10px;
+}
+
+#earn-table table tr:hover {
+  background-color: rgb(177, 177, 177);
+}
+
+/* table items */
+#earn-table table tr td {
+
+}
 
 </style>

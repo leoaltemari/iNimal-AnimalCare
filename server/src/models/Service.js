@@ -4,15 +4,8 @@ const mongoose = require('mongoose');
 const schema = mongoose.Schema({
     name: {
         type: String,
-        required: [true, 'O título é obrigatório'],
+        required: [true, 'O nome é obrigatório'],
         trim: true
-    },
-    slug: {
-        type: String,
-        required: [true, 'O slug é obrigatório'],
-        trim: true,
-        index: true,
-        unique: true
     },
     description: {
         type: String,
@@ -26,10 +19,6 @@ const schema = mongoose.Schema({
         type: Number,
         required: [true, 'O preço é obrigatório']
     },
-    hours: [{
-        type: String,
-        required: true
-    }],
     image: {
         type: Object
     },
@@ -40,7 +29,7 @@ const schema = mongoose.Schema({
     },
     tags: [{
         type: String,
-        required: true
+        trim: true,
     }],
 });
 

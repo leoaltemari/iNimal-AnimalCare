@@ -40,8 +40,16 @@ exports.getByTag = async (tag) => {
 }
 
 exports.create = async (body) => {
-    const product = new Service(body);
+    const data = body;
+
+    data.tags = [];
+    data.tags[0] = body.name;
+    data.tags[1] = body.price.toString();
+    data.tags[2] = body.partner;
+    
+    const product = new Service(data);
     const res = await product.save();
+
     return res;
 }
 
@@ -92,6 +100,5 @@ exports.update = async (id, body, file) => {
 }
 
 exports.delete = async (id) => {
-    const res = await Service.findOneAndRemove(id);
-    return res;
+    return await Service.findByIdAndRemove(id);
 }

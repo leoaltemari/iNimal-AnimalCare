@@ -567,6 +567,10 @@ span {
   font-size: 15px;
 }
 
+input, select {
+  overflow: hidden;
+}
+
 input[type=text], input[type=password], select {
   height: 30px;
   width: 100%;
@@ -638,7 +642,6 @@ input[type=text]:focus, input[type=password]:focus, select:focus {
 #pet-config {
   padding: 20px 20px;
   border-bottom: 1px solid grey;
-  /* margin: 0px 20px; */
 }
 
 .pet-data {

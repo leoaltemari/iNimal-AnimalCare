@@ -20,6 +20,6 @@ router.post('/', authService.isAdmin, controller.checkPostData,
 router.put('/:id', authService.isAdmin, controller.checkPutData, controller.uploadImage, controller.put);
 
 // DELETE
-router.delete('/:id', authService.isAdmin, controller.delete);
+router.delete('/:id/:token', authService.isAdmin, controller.delete);
 
 module.exports = router;

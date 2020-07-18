@@ -41,9 +41,10 @@ exports.getByTag = async (tag) => {
 
 exports.create = async (body) => {
     const data = body;
+    
     data.tags = [];
     data.tags[0] = body.name;
-    data.tags[1] = body.price;
+    data.tags[1] = body.price.toString();
     data.tags[2] = body.category;
     data.tags[3] = body.animal;
 
@@ -68,9 +69,7 @@ exports.update = async (id, body, file) => {
     if(body.quantity) {
         query.quantity = body.quantity;
     }
-    if(body.tags) {
-        query.tags = body.tags;
-    }
+
     if(body.slug) {
         query.slug = body.slug;
     }
@@ -94,6 +93,5 @@ exports.update = async (id, body, file) => {
 }
 
 exports.delete = async (id) => {
-    const res = await Product.findOneAndRemove(id);
-    return res;
+    return await Product.findByIdAndRemove(id);
 }

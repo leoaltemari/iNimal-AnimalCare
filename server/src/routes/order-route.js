@@ -9,10 +9,11 @@ const authService = require('../services/auth-service');
 router.get('/', authService.isAdmin , controller.get);
 router.get('/customer/:id', controller.getByCustomerId);
 router.get('/status/:status', authService.isAdmin, controller.getByStatus)
-router.get('/date', authService.isAdmin, controller.getByDate);
+
 
 // POST
 router.post('/', authService.authorize, controller.checkStock, controller.post);
+router.post('/date', authService.isAdmin, controller.getByDate);
 
 
 module.exports = router;
