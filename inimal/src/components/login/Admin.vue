@@ -430,20 +430,45 @@
             <div id="input-date">
               <h2 style="margin:10px; text-decoration:underline;">Insira a data que gostaria de visualizar</h2>
               <div class="date-items">
+                <!-- Input day -->
                 <div class="date-input">
                   <h5>Dia</h5>
-                  <input type="number" placeholder="Digite o dia" v-model="earnScreen.day">
+                  <input type="number" placeholder="Digite o dia" v-model="date.day">
                 </div>
+
+                <!-- Input month -->
                 <div class="date-input">
                   <h5>Mês</h5>
-                  <input type="number" placeholder="Digite o mês" v-model="earnScreen.month">
+                  <input type="number" placeholder="Digite o mês" v-model="date.month">
                 </div>
+
+                <!-- Input year -->
                 <div class="date-input">
                   <h5>Ano</h5>
-                  <input type="number" placeholder="Digite o ano" v-model="earnScreen.year">
+                  <input type="number" placeholder="Digite o ano" v-model="date.year">
                 </div>
-                <div id="earn-table">
-                  <h2>Ganhos em : 10/10/2020</h2>
+
+                <!-- Display errors -->
+                <div class="error message" v-if="earnScreenError">
+                  <ul>
+                    <li v-for="error in earnScreenErrors" :key="error.id">
+                      {{ error }}
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Search link -->
+                <div class="user-data config config-data" style="margin:10px 0px;"> 
+                  <a @click.stop.prevent="searchEarnScreen()">
+                    <img src="../../assets/img/icons/search_icon.png" alt=""
+                    style="height: 20px;width:20px;">
+                    Buscar
+                  </a>
+                </div>
+
+                <!-- Earn table -->
+                <div id="earn-table" v-if="showTable === true">
+                  <h2>Ganhos em : {{date.day}} / {{date.month}} / {{date.year}}</h2>
                   <table>
                     <tr>
                       <th>Cliente</th>
@@ -451,14 +476,15 @@
                       <th>Hora da compra</th>
                       <th>Número do pedido</th>
                     </tr>
-                    <tr>
-                      <td>nome</td>
-                      <td>preço</td>
-                      <td>hora</td>
-                      <td>num pedido</td>
+                    <tr v-for="order in earnScreenData" :key="order._id">
+                      <td>{{order.customer.name}}</td>
+                      <td>{{order.totalPrice}}</td>
+                      <td>{{order.hour}}</td>
+                      <td>{{order.number}}</td>
                     </tr>
                   </table>
-                </div>
+                  <h3 style="margin: 25px;">Total: R${{totalEarned}}</h3>
+                </div> 
               </div>
             </div>
           </div>
@@ -551,6 +577,14 @@ export default {
       deleteServiceSuccess: false,
       deleteServiceError: false,
 
+      // Earn Screen
+      date: {},
+      earnScreenErrors: [],
+      earnScreenError: false,
+      earnScreenData: {},
+      showTable: false,
+      totalEarned: 0,
+
     }
   },
   methods: {
@@ -592,9 +626,17 @@ export default {
       this.deleteServiceError = false;
       this.deleteService = {};
     },
+    cleanEarnScreenVariables() {
+      this.earnScreenErrors = [];
+      this.earnScreenData = [],
+      this.earnScreenError = false;
+      this.showTable = false;
+      this.date = {};
+    },
     cleanManagerVariables() {
       this.cleanProductManagerVariables();
       this.cleanServiceManagerVariables();
+      this.cleanEarnScreenVariables();
     },
     enableProductManager() {
       this.productManager = !this.productManager;
@@ -853,6 +895,39 @@ export default {
         console.log(err); 
       }
     },
+
+    // Earn Screen
+    async searchEarnScreen() {
+      const date = this.date;
+      if(!date.day || !date.month || !date.year) {
+        this.earnScreenError = true;
+        this.showTable = false;
+        this.earnScreenErrors = ["Os campos DIA, MÊS e ANO devem ser preenchidos!"];
+        return;
+      }
+
+      try {
+        const admin = new Admin();
+        const res = await admin.getEarnScreen(date, this.user.token);
+        if(res.status === 1) {
+          this.earnScreenError = true;
+          this.earnScreenErrors[0] = res.data;
+          this.showTable = false;
+        } else {
+          this.earnScreenError = false;
+          this.earnScreenData = res.data;
+          this.showTable = true;
+
+          this.totalEarned = 0;
+          for(let i = 0; i < this.earnScreenData.length; i++) {
+            this.totalEarned += this.earnScreenData[i].totalPrice;
+          }
+        }
+      } catch(err){
+        console.log(err);
+      }
+
+    }
   }
 }
 </script>
@@ -1147,28 +1222,31 @@ input, select {
   text-align: center;
 }
 
+#earn-table h2 {
+  margin: 10px;
+}
+
 /* table */
 #earn-table table { 
   border: 1px solid rgb(165, 165, 165);
   border-radius: 10px;
   table-layout: auto;
+  min-width: 510px;
 }
 #earn-table table tr th, td {
   padding: 5px;
-  width: 100px;
+  width: 200px;
+  overflow: hidden;
+}
+#earn-table table tr th:hover {
+  background-color: white;
 }
 /* table  headers */
-#earn-table table tr {
-  padding: 10px;
+#earn-table table tr:hover {
+  background-color: rgb(231, 231, 231);
 }
 
-#earn-table table tr:hover {
-  background-color: rgb(177, 177, 177);
-}
 
 /* table items */
-#earn-table table tr td {
-
-}
 
 </style>

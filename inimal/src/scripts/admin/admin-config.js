@@ -188,6 +188,34 @@ Admin.prototype.deleteService = async (service, userToken) => {
     return res;
 }
 
+Admin.prototype.getEarnScreen = async (date, userToken) => {
+    let res = {};
+    try {
+
+        const url = `http://localhost:8081/orders/${userToken}/${date.day}/${date.month}/${date.year}`;
+
+        await axios.get(url)
+        .then(response => {
+            if(response.data.message) {
+                res.data = response.data.message;
+                res.status = 1;
+            } else {
+                res.data = [];
+                for(let i = 0; i < response.data.length; i++) {
+                    res.data[i] = response.data[i];
+                }
+                res.status = 0;
+            }
+        })
+    } catch(err) {
+        console.log(err);
+    }
+    return res;
+}
+
+
+
+
 Admin.prototype.clear = () => {
     errors = [];
 }

@@ -6,9 +6,9 @@ const controller = require('../controllers/order-controller');
 const authService = require('../services/auth-service');
 
 // GET 
-router.get('/', authService.isAdmin , controller.get);
+router.get('/:token/:day/:month/:year', authService.isAdmin , controller.getByDate);
 router.get('/customer/:id', controller.getByCustomerId);
-router.get('/status/:status', authService.isAdmin, controller.getByStatus)
+router.get('/status/:status', authService.isAdmin, controller.getByStatus);
 
 
 // POST

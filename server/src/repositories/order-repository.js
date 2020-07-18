@@ -65,14 +65,7 @@ exports.getByStatus = async (status) => {
 }
 
 exports.getByDate = async (date) => {
-    const query = {
-        createDate: {
-            day: date.day,
-            month: date.month,
-            year: date.year,
-        }
-    };
-    const res = await Order.find({
+    return await Order.find({
         createDate: {
             day: date.day,
             month: date.month,
@@ -80,7 +73,6 @@ exports.getByDate = async (date) => {
         }
     }, 'totalPrice hour number')
     .populate('customer', 'name')
-    .populate('items.product', 'name')
-    return res;
+    .populate('items.product', 'name');
 }
 
