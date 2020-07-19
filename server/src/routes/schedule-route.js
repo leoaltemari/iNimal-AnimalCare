@@ -11,7 +11,7 @@ router.get('/customer/:id', authService.authorize, controller.getByCustomerId);
 router.get('/date', authService.authorize, controller.getByDate);
 
 // POST
-router.post('/',authService.authorize, controller.checkDayAvaliable, controller.post);
+router.post('/', authService.authorize, controller.checkDayAvaliable, controller.post);
 
 // DELETE
 router.delete('/:id', authService.isAdmin ,controller.delete);

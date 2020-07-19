@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const Schedule = require('../models/Schedule');
 
 exports.create = async(data) => {
+    
     var schedule = new Schedule(data);
     return await schedule.save();
 }
@@ -34,10 +35,7 @@ exports.getByDate = async (date) => {
         }
     };
     const res = await Schedule.find(
-        query, 'hour totalPrice')
-    .populate('customer', 'name')
-    .populate('pet', 'name')
-    .populate('service', 'name');
+        query, 'totalPrice');
     return res;
 }
 

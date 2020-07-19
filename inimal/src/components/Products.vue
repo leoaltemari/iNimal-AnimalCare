@@ -236,15 +236,16 @@ export default {
 
   .flex-input {
     display: flex;
-    margin: 20px 25px;
+    margin: 10px 15px;
   }
 
   input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
+
   #quantity {
-    width: 150px;
+    width: 100px;
     height: 35px;
     border:1px solid rgb(170, 170, 170);
     text-align: center;

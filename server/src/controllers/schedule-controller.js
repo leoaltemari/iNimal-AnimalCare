@@ -10,7 +10,7 @@ exports.checkDayAvaliable = async (req, res, next) => {
 
         if(cb.length === 10) {
             res.status(200).send({
-                messsage: 'Dia cheio',
+                message: 'Dia cheio',
             });
         } else {
             next();
@@ -37,12 +37,15 @@ exports.post = async (req, res, next) => {
             year: now.getFullYear(),
         },
         scheduleDate: req.body.date,
-        hour: req.body.hour,
+        hour: "8:00",
         totalPrice: req.body.price
     };
+
+    data.scheduleDate.year = '2020';
     // Saves in the DB
     try {
         const cb = await repository.create(data);
+        
         res.status(200).send({ 
             message: 'Serviço agendado com sucesso!',
             data: cb 

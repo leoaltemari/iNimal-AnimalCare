@@ -7,12 +7,10 @@ const schema = mongoose.Schema({
         ref: 'Customer'
     },
     pet: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Pet'
+        type: String,
     },
     service: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Service'
+        type: String,
     },
     createDate: {
         day: {
@@ -41,10 +39,6 @@ const schema = mongoose.Schema({
             type: String,
             required: true,
         }, 
-    },
-    hour: {
-        type: Number,
-        required: true
     },
     totalPrice: {
         type: Number,

@@ -29,7 +29,7 @@ ServiceValidation.prototype.postValidation = (data) => {
 
     // Name validator
     validator.hasMinLen(data.name, 4, 'O nome deve possuir mínimo de 4 caracteres');
-    validator.hasMaxLen(data.name, 10, 'O nome deve possuir máximo de 10 caracteres');
+    validator.hasMaxLen(data.name, 20, 'O nome deve possuir máximo de 20 caracteres');
     
     // Description validator
     validator.hasMinLen(data.description, 50, 'A Descriçãodeve conter no mínimo 50 letras');
