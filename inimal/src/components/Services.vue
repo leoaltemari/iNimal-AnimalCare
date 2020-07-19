@@ -1,9 +1,8 @@
 <template>
   <div>
     <main id="user-content">
-      <!-- User info -->
       <div id="logged">
-        <!-- User config -->
+        <!-- Schedul a time field -->
         <aside class="user-info" style="text-align: center;">
           <!-- Logged -->
           <h3>Agende um horário</h3><br/>
@@ -41,7 +40,7 @@
             </div>
           </div>
 
-          <!-- Not logged -->
+          <!-- Not logged MESSAGE -->
           <div class="information" v-else>
             <div class="message error">
                 <h3>Você precisa estar logado para agendar um horário</h3>
@@ -69,21 +68,74 @@
           <!-- CONFIRM button-->
           <div class="user-data config config-data" v-if="user.name != undefined"> 
             <a @click.stop.prevent="scheduleATime()">
-              <img src="../assets/img/icons/add_icon.png" alt="">
+              <img src="../assets/img/icons/schedule_icon.png" alt="">
               Agendar
             </a>
           </div>
         </aside>
         
-        <!--  Pets Display -->
-        <aside id="my-pets">
-          <main id="pet-config">
-            <!-- Add a new pet -->
-            <div class="pet-data save" >
-              <h1>Serviços</h1>
-              <div class="grid-items">
-                
+        <!--  Service Display -->
+        <aside>
+          <!-- ALL the services -->
+          <aside id="pets" v-if="!disponibility">
+            <h1>Serviços</h1>
+
+            <!-- Link to see the schedule table -->
+            <div class="config">
+              <a @click.stop.prevent="enableDisponibility()">
+              <img src="../assets/img/icons/clock_icon.png" alt="">
+                Checar disponibilidade
+              </a>
+            </div>
+
+            <!-- Display services -->
+            <div id="services">
+              <div class="service" v-for="service in services" :key="service._id">
+                <img src="../assets/img/logos/inimal_logo.jpeg" alt="">
+                <h3>{{service.name}}</h3>
+                <h4>{{service.description}}</h4>
+                <h5>Responsável: {{service.partner}}</h5>
+                <h3>Preço: R${{service.price}},00</h3>
               </div>
+            </div>
+          </aside>
+
+          <!-- Disponibility -->
+          <main id="pet-config" v-else>
+            <h1>Disponibilidade</h1>
+
+            <!-- Return Button -->
+            <div class="config">
+              <a @click.stop.prevent="enableDisponibility()">
+              <img src="../assets/img/icons/return_icon.png" alt="">
+                Voltar para serviços
+              </a>
+            </div><br>
+
+            <!-- Schedulings input -->
+            <div class="pet-data save" > 
+              <h4>Entre com a data que deseja checar</h4><br>
+              <!-- INPUTS -->
+              <div class="inputs">
+                <!-- Select DAY -->
+                <div class="user-data config-data">
+                  <h1>Dia</h1>
+                  <input type="text" placeholder="Digite o dia" v-model="see.day">
+                </div>
+
+                <!-- Select MONTH -->
+                <div class="user-data config-data">
+                  <h1>Mes</h1>
+                  <input type="text" placeholder="Digite o dia" v-model="see.month">
+                </div>
+
+                <!-- Select YEAR -->
+                <div class="user-data config-data">
+                  <h1>Ano</h1>
+                  <input type="text" placeholder="Digite o dia" v-model="see.year">
+                </div>
+              </div>
+
               <!-- Display ERROR messages -->
               <div class="error message" v-if="seeTableError">
                 <ul>
@@ -92,49 +144,37 @@
                   </li>
                 </ul>
               </div>
-              <!-- Display SUCCESS messages -->
-              <div class="success message" v-if="seeTableSucess">
-                <ul>
-                  <li >
-                    {{ seeTableSuccessMsg }}
-                  </li>
-                </ul>
-              </div>
-              <!-- Add pet BUTTON - Config BUTTON -->
+
+              <!-- Search BUTTON -->
               <div class="config">
                 <a @click.stop.prevent="searchSchedulingTable()">
-                <img src="../assets/img/icons/add_icon.png" alt="">
-                  Buscar
+                  <img src="../assets/img/icons/search_icon.png" alt="">
+                    Buscar
                 </a>
-              </div>
-              
+              </div><br>
             </div>
-          </main>
-          
-          <!-- My pets DISPLAY -->
-          <footer id="pets">
-            <h1 v-if="userPets.length">Tabela</h1>
-            <h1 v-else>Você não possui nenhum pet</h1>
-            <!-- Earn table -->
+
+            <!-- Table of schedulings -->
             <div id="earn-table" v-if="showTable === true">
-              <h2>Ganhos em : {{date.day}} / {{date.month}} / {{date.year}}</h2>
+              <h2>Agenda em : {{see.day}} / {{see.month}} / {{see.year}}</h2>
               <table>
+                <!-- Header -->
                 <tr>
                   <th>Cliente</th>
-                  <th>Valor da compra</th>
-                  <th>Hora da compra</th>
-                  <th>Número do pedido</th>
+                  <th>Pet</th>
+                  <th>Serviço</th>
                 </tr>
-                <tr v-for="order in earnScreenData" :key="order._id">
-                  <td>{{order.customer.name}}</td>
-                  <td>{{order.totalPrice}}</td>
-                  <td>{{order.hour}}</td>
-                  <td>{{order.number}}</td>
+
+                <!-- Items -->
+                <tr v-for="schedulings in scheduleTable"
+                 :key="schedulings._id">
+                  <td>{{schedulings.customer.name}}</td>
+                  <td>{{schedulings.pet}}</td>
+                  <td>{{schedulings.service}}</td>
                 </tr>
               </table>
-              <h3 style="margin: 25px;">Total: R${{totalEarned}}</h3>
             </div> 
-          </footer>
+          </main>      
         </aside>
       </div>
     </main>
@@ -170,13 +210,14 @@ export default {
       },
 
       // See the schedule data
-      seeDay: '',
-      seeMonth: '',
-      seeYear: '',
-      seeTableError: '',
-      seeTableErrors: false,
-      seeTableSuccess: false,
-      seeTableSuccessMsg: '',
+      see: {},
+      seeTableError: false,
+      seeTableErrors: '',
+
+      // Disponibility
+      disponibility: false,
+      showTable: false,
+      scheduleTable: [],
     };
   },
   async mounted() {
@@ -190,16 +231,46 @@ export default {
     }
   },
   methods: {
+    // Get all the pets of an user that is logged in the site
     async getUserPets() {
       const pets = new Pet();
-      const response = await pets.getPets(this.user._id, this.user.token);
-      if(response.status === 0) {
-        this.userPets = response.data;
+      try {
+        const response = await pets.getPets(this.user._id, this.user.token);
+        if(response) {
+        if(response.status === 0) {
+          this.userPets = response.data;
+        }
+      }
+      } catch(err) {
+        console.log(err);
+      }      
+    },
+
+    // Scheduling methods
+      // GET
+    async searchSchedulingTable() {
+      // Empty fields
+      if(!this.see || !this.see.day ||
+       !this.see.month || !this.see.year) {
+        this.showTable = false;
+        this.seeTableSuccess = false;
+        this.seeTableError = true;
+        this.seeTableErrors = 'Todos campos devem ser preenchidos!';
+        return;
+      }
+      try {
+        const service = new Service();
+        const res = await service.getSchedulings(this.see);
+        
+        this.showTable = true;
+        this.seeTableSuccess = true;
+        this.seeTableError = false;
+        this.scheduleTable = res.data;
+      } catch(err) {
+        console.log(err);
       }
     },
-    searchSchedulingTable() {
-
-    },
+      // POST
     async scheduleATime() {
       try {
         const service = new Service();
@@ -234,9 +305,14 @@ export default {
           }
         }
       } catch(err) {
-
+        console.log(err);
       }
     },
+
+    // Change pages
+    enableDisponibility() {
+      this.disponibility = !this.disponibility;
+    }
   }
 }
 </script>
@@ -247,10 +323,6 @@ export default {
     display: grid;
     grid-template-columns: 4fr!important;
   }
-  .change-password {
-    display: grid;
-    grid-template-columns: 1fr 1fr!important;
-  }
 
   .config {
     text-align: center;
@@ -258,7 +330,7 @@ export default {
 
   .information {
     display:grid;
-    grid-template-columns: 1fr 1fr; 
+    grid-template-columns: 1fr; 
   }
   
   .user-info {
@@ -270,13 +342,10 @@ export default {
 
   .user-data {
     margin:  0px 10px!important;
-    padding: 0px 20px;
+    /* padding: 0px 20px; */
   }
   #pet-config {
     padding: 20px 40px!important;
-  }
-  .pet-info {
-    margin: 25px 60px!important;
   }
 }
 
@@ -284,10 +353,6 @@ export default {
   .config a {
     font-size: 15px!important;
     margin: 10px!important;
-  }
-
-  .pet-info {
-    margin: 25px 40px!important;
   }
 }
 
@@ -314,6 +379,7 @@ span {
 #logged {
   display: grid;
   grid-template-columns: 2fr 4fr;
+  min-height: 500px;
 }
 
 .user-info {
@@ -338,11 +404,15 @@ span {
   font-size: 15px;
 }
 
+.user-data input {
+  min-width: 150px;
+  margin: 10px!important;
+}
 input, select {
   overflow: hidden;
 }
 
-input[type=text], input[type=password], select {
+input[type=text], select {
   height: 30px;
   width: 100%;
   margin: 5px 0px 5px 0px;
@@ -352,20 +422,6 @@ input[type=text]:focus, input[type=password]:focus, select:focus {
   outline: none;
   box-shadow: 0px 0px 5px rgb(115, 115, 255);
 }
-
-.user-img {
-  text-align: center;
-}
-.user-img img {
-  text-align: center;
-  height: 150px;
-  width: 150px;
-  padding: 10px;
-  background-color: white;
-  border: 1px solid  blue;
-  border-radius: 50%;
-}
-
 
 /* User configuration display */
 .config {
@@ -404,20 +460,16 @@ input[type=text]:focus, input[type=password]:focus, select:focus {
   margin: 0px 10px 0px 0px;
 }
 
-.change-password {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
 /* Pet information display */
 #pet-config {
   padding: 20px 20px;
   border-bottom: 1px solid grey;
+  min-height: 550px;
+  text-align: center;
 }
 
 .pet-data {
-  margin: 10px;
-  padding: 0px 20px;
+  text-align: center;
 }
 
 .pet-data h1 {
@@ -431,26 +483,8 @@ input[type="file"] {
   width: 120px;
 }
 
-.grid-items {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-/* Pet condfiguration display */
-.select-pet {
-  text-align: center;
-}
-
-.select-pet select {
-  width: 40%;
-}
-
 /* Pet media queries */
 @media(max-width: 1110px) {
-  #pets h1 {
-    width: 450px;
-  }
-  
   .pets-display {
     grid-template-columns: 1fr 1fr!important;
     overflow-x: hidden!important;
@@ -475,9 +509,8 @@ input[type="file"] {
 }
 
 /* Pet grid display */
-
 #pets {
-  max-height: 350px;
+  max-height: 550px;
   overflow: scroll;
   overflow-x: hidden;
 }
@@ -485,44 +518,12 @@ input[type="file"] {
 #pets h1 {
   text-align: center;
   padding: 10px 0px;
+  margin: 10px 0px;
 }
 
 .pets-display {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-}
-
-.pet-info {
-  width: 200px;
-  margin: 25px;
-  padding: 10px 20px 20px 20px;
-  box-sizing: border-box;
-  text-align: center;
-  border: 1px solid rgb(179, 179, 179);
-  border-radius: 10px;
-  color: rgb(162, 162, 253);
-}
-
-.pet-info img {
-  text-align: center;
-  background-color: white;
-  height: 100px;
-  width: 100px;
-  border-radius:50%;
-  margin: 5px;
-}
-
-.pet-info h3 {
-  font-weight: bold;
-  margin: 10px 0px;
-  padding: 5px 0px;
-  border-bottom: 1px solid rgb(162, 162, 253);
-}
-
-.pet-info h4 {
-  font-weight: 100;
-  text-align: left;
-  height: 30px;
 }
 
 /* width */
@@ -565,5 +566,76 @@ input[type="file"] {
     color: rgb(80, 255, 138);
 }
 
+#services {
+  padding: 5px;
+  margin: 10px;
+  font-size: 10px;
+  text-align: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
 
+.service {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid rgb(179, 179, 179);
+  border-radius: 20px;
+  color: rgb(162, 162, 253);
+  min-width: 180px;
+}
+
+.service img {
+  height: 100px;
+  width: 100px;
+  margin: 10px 0px;
+}
+
+.service h3 {
+  font-size: 15px;
+  
+}
+
+.service h4 {
+  height: 100px;
+}
+
+.service h5 {
+  height: 20px;
+}
+
+.inputs {
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  text-align:center;
+}
+
+#earn-table {
+  text-align: center;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+#earn-table h2 {
+  margin: 10px;
+}
+
+/* table */
+#earn-table table { 
+  border: 1px solid rgb(165, 165, 165);
+  border-radius: 10px;
+  table-layout: auto;
+}
+
+#earn-table table tr th, td {
+  padding: 5px;
+  width: 200px;
+  overflow: hidden;
+}
+#earn-table table tr th:hover {
+  background-color: white;
+}
+/* table  headers */
+#earn-table table tr:hover {
+  background-color: rgb(231, 231, 231);
+}
 </style>

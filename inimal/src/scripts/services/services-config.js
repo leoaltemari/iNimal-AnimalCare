@@ -42,6 +42,35 @@ Service.prototype.schedule = async (userData, userToken) => {
     return res;
 }
 
+Service.prototype.getSchedulings = async (date) => {
+    let res = {};
+    try {
+        const url = `http://localhost:8081/schedules/date/${date.day}/${date.month}/${date.year}`;
+
+        await axios.get(url)
+            .then(response => {
+                if(response.data.message) {
+                    res.data = [];
+                    for(let i = 0; i < 10; i++) {
+                        res.data[i] = {};
+                        res.data[i].customer = {};
+                        res.data[i].customer.name = 'LIVRE';
+                    }
+                } else {
+                    res.data = response.data;
+                    for(let i = res.data.length; i < 10; i++) {
+                        res.data[i] = {};
+                        res.data[i].customer = {};
+                        res.data[i].customer.name = 'LIVRE';
+                    }
+                }
+            });
+    } catch(err ) {
+        console.log(err);
+    }
+    return res;
+}
+
 Service.prototype.clear = () => {
     errors = [];
 }

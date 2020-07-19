@@ -97,7 +97,7 @@ exports.getByCustomerId = async (req, res,  next) => {
 
 exports.getByDate = async (req, res,  next) => {
     try{
-        const data = await repository.getByDate(req.body.date);
+        const data = await repository.getByDate(req.params);
         if(data.length === 0) {
             res.status(200).send({ 
                 message: 'Nenhum agendamento encontrado',

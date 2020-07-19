@@ -8,7 +8,7 @@ const authService = require('../services/auth-service');
 // GET 
 router.get('/', authService.isAdmin, controller.get);
 router.get('/customer/:id', authService.authorize, controller.getByCustomerId);
-router.get('/date', authService.authorize, controller.getByDate);
+router.get('/date/:day/:month/:year', controller.getByDate);
 
 // POST
 router.post('/', authService.authorize, controller.checkDayAvaliable, controller.post);

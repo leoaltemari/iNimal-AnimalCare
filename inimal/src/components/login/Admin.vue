@@ -1246,7 +1246,4 @@ input, select {
   background-color: rgb(231, 231, 231);
 }
 
-
-/* table items */
-
 </style>

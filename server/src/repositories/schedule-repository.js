@@ -10,10 +10,8 @@ exports.create = async(data) => {
 }
 
 exports.get = async () => {
-    const res = await Schedule.find({}, 'createDate scheduleDate hour totalPrice')
+    const res = await Schedule.find({}, 'createDate scheduleDate hour totalPrice pet service')
     .populate('customer', 'name')
-    .populate('pet', 'name')
-    .populate('service', 'name price')
     return res;
 }
 
@@ -35,15 +33,14 @@ exports.getByDate = async (date) => {
         }
     };
     const res = await Schedule.find(
-        query, 'totalPrice');
+        query)
+        .populate('customer', 'name');
     return res;
 }
 
 exports.delete = async (id) => {
     const res = await Schedule.findOneAndDelete({ _id: id })
     .populate('customer', 'name')
-    .populate('pet', 'name')
-    .populate('service', 'name');
     return res;
 }
 
