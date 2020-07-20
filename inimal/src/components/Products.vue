@@ -117,7 +117,7 @@ export default {
   name: 'Products',
   props: {
     user: { type: Object },
-    cart: { type: Array }
+    cart: { type: Array },
   },
   data() {
     return {
@@ -143,8 +143,8 @@ export default {
       medicamento: false,
     };
   },
-  async mounted() {
-      this.getProducts();
+  async mounted() { 
+    this.getProducts();
   },
   methods: {
     //Request all the products with a GET method

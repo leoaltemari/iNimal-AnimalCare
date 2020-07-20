@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <app-header id="app-header"></app-header>
-    <router-view id="app-main" :user="savedUser" :cart="savedCart"/>
+    <router-view id="app-main" :user="savedUser" :cart="savedCart" :search="savedSearch"/>
   </div>
 </template>
 
@@ -13,6 +13,7 @@ export default {
     return {
       savedUser: {},
       savedCart: [],
+      savedSearch: ''
     };
   },
   // Hooks
@@ -23,6 +24,9 @@ export default {
     });
     Bus.$on('item-in-cart', (value) => {
       this.savedCart = value;
+    });
+    Bus.$on('search', (value) => {
+      this.savedSearch = value;
     });
   },
   methods: {
