@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <app-header id="app-header"></app-header>
-    <router-view id="app-main" :user="savedUser" :chart="savedChart"/>
+    <router-view id="app-main" :user="savedUser" :cart="savedCart"/>
   </div>
 </template>
 
@@ -12,15 +12,15 @@ export default {
   data: () => {
     return {
       savedUser: {},
-      savedChart: [],
+      savedCart: [],
     };
   },
   mounted() {
     Bus.$on('logged', (value) => {
       this.savedUser = value;
     });
-    Bus.$on('item-in-chart', (value) => {
-      this.savedChart = value;
+    Bus.$on('item-in-cart', (value) => {
+      this.savedCart = value;
     });
   },
   methods: {

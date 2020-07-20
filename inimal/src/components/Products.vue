@@ -48,21 +48,35 @@
       <main id="products-container">  
         <div class="item" 
         v-for="(product, index) in products" 
-        :key="product.id">
+        :key="product.id" v-show="product.quantity > 0">
+          <!-- Product information -->
           <img src="../assets/img/logos/inimal_logo.jpeg" alt=""
-           v-if="product.show === true">
+           v-if="product.show === true ">
           <h2>{{ product.name }}</h2>
           <h4>{{ product.description }}</h4>
           <h3>Preço: R${{ product.price }}</h3>
+          
           <!-- Select quantity -->
-          <div v-if="product.status === true" class="flex-input">
-            <input type="number" id="quantity" 
-            placeholder="Quantidade" v-model="quantity"/>
+          <div v-if="product.status === true">
+            <div >
+              <div class="flex-input">
+                <input type="number" id="quantity" 
+                placeholder="Quantidade" v-model="quantity"/>
 
-            <input type="button" 
-            value="Adicionar" 
-            @click="addToCart(product._id, index)"
-            id="confirm"/>
+                <input type="button" 
+                value="Adicionar" 
+                @click="addToCart(product._id, index)"
+                id="confirm"/>
+              </div>
+
+              <!-- No quantity in stock -->
+              <div class="message error" v-if="product.error">
+                <ul>
+                  <li>ERRO</li>
+                  <li>{{productErrors}}</li>
+                </ul>
+              </div>
+            </div>
           </div>
 
           <!-- Add to Cart -->
@@ -72,6 +86,7 @@
             @click="showQuantity(product._id, index)"
             id="add-Cart"/>
           </div>
+
         </div>
       </main>
     </div>
@@ -85,15 +100,18 @@ import Bus from './bus';
 export default {
   name: 'Products',
   props: {
-    user: { type: Object }
+    user: { type: Object },
+    cart: { type: Array }
   },
   data() {
     return {
-      // Variaveis aqui
+      // Variaveis
       products: [],
       displayQuantityFlag: false,
       quantity: '',
-      Cart: [],
+
+      productError: false,
+      productErrors: '',
     };
   },
   async mounted() {
@@ -123,12 +141,28 @@ export default {
     addToCart(productId, index) {
       this.products[index].price += 1;
       this.products[index].price -= 1;
+
+      this.cleanErrors();
+      if(this.quantity > this.products[index].quantity)  {
+        this.products[index].error = true;
+        this.productErrors = 'Quantidade no estoque: ' + this.products[index].quantity;
+        this.quantity = '';
+        return;
+      }
+
       this.products[index].status = false;
-      
-      this.Cart.push({product: this.products[index], quantity: this.quantity});
+      this.cart.push({product: this.products[index], quantity: this.quantity});
       this.quantity = '';
-      Bus.$emit('item-in-Cart', this.Cart);
+      Bus.$emit('item-in-cart', this.cart);
+      Bus.$on('save-cart', (value) => {
+        this.cart = value;
+      });
     },
+    cleanErrors() {
+      for(let i = 0; i < this.products.length; i++) {
+        this.products[i].error = false;
+      }
+    }
   },
 };
 </script>
@@ -316,5 +350,23 @@ export default {
     position:relative;
     top: -4px;
   }
+
+.message {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 15px;
+  transition: 1s;
+}
+
+.error ul {
+  list-style-type: none;
+}
+.error li {
+  font-size: 15px;
+}
+
+.error {
+    color: rgb(255, 122, 122);
+}
   
 </style>

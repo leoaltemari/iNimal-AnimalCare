@@ -41,7 +41,7 @@ exports.post = async (req, res, next) => {
             repository.updateQuantities(cb.items);
         }
         res.status(200).send({ 
-            message: 'Pedido cadastrado com sucesso!',
+            message: 'Seu pedido foi cadastrado com sucesso!',
             data: cb 
         });
     } catch(err) {

@@ -249,15 +249,10 @@ export default {
     // Scheduling methods
       // GET
     async searchSchedulingTable() {
-      // Empty fields
-      if(!this.see || !this.see.day ||
-       !this.see.month || !this.see.year) {
-        this.showTable = false;
-        this.seeTableSuccess = false;
-        this.seeTableError = true;
-        this.seeTableErrors = 'Todos campos devem ser preenchidos!';
+      if(this.validateDate(this.see)){
         return;
       }
+
       try {
         const service = new Service();
         const res = await service.getSchedulings(this.see);
@@ -274,7 +269,7 @@ export default {
     async scheduleATime() {
       try {
         const service = new Service();
-
+        // Invalid input
         if(!this.schedule.service || !this.schedule.pet ||
         !this.schedule.date || !this.schedule.date.day ||
         !this.schedule.date.month) {
@@ -283,6 +278,16 @@ export default {
           this.scheduleErrors[0] = 'Preencha corretamente os dados';
           return;
         }
+
+        
+        if(this.schedule.date.day < 0 || this.schedule.date.day > 31 ||
+        this.schedule.date.month < 0 || this.schedule.date.month > 12) {
+          this.scheduleError = true;
+          this.scheduleSuccess = false;
+          this.scheduleErrors[0] = 'Entre com uma data válida';
+          return;
+        }
+
         this.schedule.customer = this.user._id;
 
         for(let i = 0; i < this.services.length;i++) {
@@ -312,6 +317,30 @@ export default {
     // Change pages
     enableDisponibility() {
       this.disponibility = !this.disponibility;
+    },
+    validateDate(date) {
+      // Empty fields
+      if(!date || !date.day ||
+       !date.month || !date.year) {
+        this.showTable = false;
+        this.seeTableSuccess = false;
+        this.seeTableError = true;
+        this.seeTableErrors = 'Todos campos devem ser preenchidos!';
+        return true;
+      } else if(date.day < 0 || date.day > 31) {
+        this.showTable = false;
+        this.seeTableSuccess = false;
+        this.seeTableError = true;
+        this.seeTableErrors = 'Entre com um dia válido';
+        return true;
+      } else if(date.month < 0 || date.month > 12) {
+        this.showTable = false;
+        this.seeTableSuccess = false;
+        this.seeTableError = true;
+        this.seeTableErrors = 'Entre com um mês válido';
+        return true;
+      }
+      return false;
     }
   }
 }
