@@ -5,53 +5,69 @@
       <aside id="filter-menu">
         <!-- ANIMALS -->
         <div class="filter-parent">
+          <!-- cachorro -->
           <h2>Animais</h2>
           <div class='filter-child'>
-            <input type="checkbox">
+            <input type="checkbox" @click="enableCachorro">
             <h3>Cachorro</h3>
           </div>
+
+          <!-- gato -->
           <div class='filter-child'>
-            <input type="checkbox">
+            <input type="checkbox" @click="enableGato">
             <h3>Gato</h3>
           </div>
+
+          <!-- passaro -->
           <div class='filter-child'>
-            <input type="checkbox">
+            <input type="checkbox" @click="enablePassaro">
             <h3>Pássaro</h3>
           </div>
+
+          <!-- roedor -->
           <div class='filter-child'>
-            <input type="checkbox">
+            <input type="checkbox" @click="enableRoedor">
             <h3>Roedor</h3>
           </div>
         </div>
+
+        <!-- CATEGORY -->
         <div class="filter-parent">
           <h2>Categoria</h2>
+
+          <!-- racao -->
           <div class='filter-child'>
-            <input type="checkbox">
+            <input type="checkbox" @click="enableRacao">
             <h3>Ração</h3>
           </div>
+
+          <!-- acessorio -->
           <div class='filter-child'>
-            <input type="checkbox">
+            <input type="checkbox" @click="enableAcessorio">
             <h3>Acessório</h3>
           </div>
+
+          <!-- brinquedo -->
           <div class='filter-child'>
-            <input type="checkbox">
+            <input type="checkbox" @click="enableBrinquedo">
             <h3>Brinquedo</h3>
           </div>
+
+          <!-- medicamento -->
           <div class='filter-child'>
-            <input type="checkbox">
+            <input type="checkbox" @click="enableMedicamento">
             <h3>Medicamento</h3>
           </div>
         </div>
       </aside>
 
-      <!-- Products -->
+      <!-- Products display-->
       <main id="products-container">  
         <div class="item" 
         v-for="(product, index) in products" 
-        :key="product.id" v-show="product.quantity > 0">
+        :key="product.id" v-show="product.quantity > 0 && product.show">
           <!-- Product information -->
-          <img src="../assets/img/logos/inimal_logo.jpeg" alt=""
-           v-if="product.show === true ">
+          <img src="../assets/img/logos/inimal_logo.jpeg" alt="">
           <h2>{{ product.name }}</h2>
           <h4>{{ product.description }}</h4>
           <h3>Preço: R${{ product.price }}</h3>
@@ -69,7 +85,7 @@
                 id="confirm"/>
               </div>
 
-              <!-- No quantity in stock -->
+              <!-- No quantity in stock error -->
               <div class="message error" v-if="product.error">
                 <ul>
                   <li>ERRO</li>
@@ -112,12 +128,26 @@ export default {
 
       productError: false,
       productErrors: '',
+
+      // Filter 
+        // Animal flags
+      cachorro: false,
+      gato: false,
+      passaro: false,
+      roedor: false,
+
+        // Category flags
+      racao: false,
+      acessorio: false,
+      brinquedo: false,
+      medicamento: false,
     };
   },
   async mounted() {
       this.getProducts();
   },
   methods: {
+    //Request all the products with a GET method
     async getProducts() {
       try {
         await axios
@@ -133,6 +163,8 @@ export default {
         console.log(err);
       }
     },
+
+    // Methods to add products in the Cart
     showQuantity(productId, index) {
       this.products[index].price += 1;
       this.products[index].price -= 1;
@@ -162,6 +194,91 @@ export default {
       for(let i = 0; i < this.products.length; i++) {
         this.products[i].error = false;
       }
+    },
+
+    // Filter methods
+      // Enable and disable flags
+    enableCachorro() {
+      this.cachorro = !this.cachorro;
+      this.filterAll();
+    },
+    enableGato() {
+      this.gato = !this.gato;
+      this.filterAll();
+    },
+    enablePassaro() {
+      this.passaro = !this.passaro;
+      this.filterAll();
+    },
+    enableRoedor() {
+      this.roedor = !this.roedor;
+      this.filterAll();
+    },
+    enableRacao() {
+      this.racao = !this.racao;
+      this.filterAll();
+    },
+    enableAcessorio() {
+      this.acessorio = !this.acessorio;
+      this.filterAll();
+    },
+    enableBrinquedo() {
+      this.brinquedo = !this.brinquedo;
+      this.filterAll();
+    },
+    enableMedicamento() {
+      this.medicamento = !this.medicamento;
+      this.filterAll();
+    },
+      // Fiter by the flags
+    filterAll() {
+      this.filterAnimals();
+    },
+    filterAnimals() {
+      for(let i = 0; i < this.products.length; i++) {
+        if(!this.cachorro && !this.gato && !this.passaro && !this.roedor) {
+          this.products[i].show = true;
+          this.filterCategory(i, true);
+        } else {
+          if(this.products[i].animal === 'Cachorro') {
+              this.products[i].show = this.cachorro;
+              this.filterCategory(i, this.cachorro);
+          }
+          if(this.products[i].animal === 'Gato') {
+              this.products[i].show = this.gato;
+              this.filterCategory(i, this.gato);
+          }
+          if(this.products[i].animal === 'Pássaro') {
+              this.products[i].show = this.passaro;
+              this.filterCategory(i, this.passaro);
+          }
+          if(this.products[i].animal === 'Roedor') {
+              this.products[i].show = this.roedor;
+              this.filterCategory(i, this.roedor);
+          }
+        }
+        this.products[i].price += 1;
+        this.products[i].price -= 1;
+      }
+    },
+    filterCategory(index, value) {
+      if(!this.racao && !this.acessorio && !this.brinquedo && !this.medicamento) {
+        return;
+      }
+      if(this.products[index].category === 'Ração') {
+        this.products[index].show = (this.racao && value);
+      }
+      if(this.products[index].category === 'Acessório') {
+        this.products[index].show = (this.acessorio && value);
+      }
+      if(this.products[index].category === 'Brinquedo') {;
+        this.products[index].show = (this.brinquedo && value);
+      }
+      if(this.products[index].category === 'Medicamento') {
+        this.products[index].show = (this.medicamento && value);
+      }
+      this.products[index].price += 1;
+      this.products[index].price -= 1;
     }
   },
 };
@@ -219,7 +336,7 @@ export default {
     border-radius: 20px;
     box-shadow: 0px 0px 2px black;
     color:rgb(102, 102, 255);
-    max-height: 400px;
+    max-height: 336px;
   }
 
   .item img {
@@ -278,6 +395,7 @@ export default {
     margin: 0;
   }
 
+  /* Select quantity */
   #quantity {
     width: 100px;
     height: 35px;
@@ -311,10 +429,12 @@ export default {
     outline:none;
   }
 
+  /* Filter menu */
   #filter-menu {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     background-color: white;
     max-height: 500px;
+    min-height: 500px;
     min-width: 245px;
     max-width: 250px;
     padding: 5px;

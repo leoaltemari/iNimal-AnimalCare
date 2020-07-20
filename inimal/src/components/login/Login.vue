@@ -99,15 +99,19 @@ name: 'Login',
     };
   },
   methods: {
+    // Check the variables to make the login
     async authenticate(event) {
       this.loginErrors = [];
       this.errorDisplay = false;
 
+      // Empty fields
       if(!this.loginFields.email || !this.loginFields.password) {
         this.loginErrors = 'Os campos de email ou senha precisam ser preenchidos!';
         this.errorDisplay = true;
         return;
       }
+
+      // Get request to AUTHENTICATE the user
       try {
         await axios.get(`http://localhost:8081/customers/authenticate/${this.loginFields.email}/${this.loginFields.password}`)
         .then(response => {
@@ -122,6 +126,7 @@ name: 'Login',
               Bus.$emit('logged', this.user);
             }
 
+            // Redirect to user page or admin page
             if(this.user.roles[0] === 'admin') {
               const loginAdmin = document.getElementById('login-admin').click();
             } else {
@@ -133,6 +138,8 @@ name: 'Login',
         console.log(err);
       }     
     },
+
+    // Register a new user
     async register() {
         this.registerErrors = [];
         const data = this.registerFields;
@@ -160,6 +167,7 @@ name: 'Login',
         console.log(err);
       } 
     },
+
     sendLoginWithEnter(event) {
       // Change to search page pressing ENTER
       let key = event.which || event.keyCode;
@@ -183,6 +191,7 @@ name: 'Login',
 </script>
 
 <style scoped>
+/* Media queries */
   @media (max-width: 1250px) {
     #login-content {
       grid-template-columns: 1fr!important;
@@ -192,6 +201,8 @@ name: 'Login',
       text-align: center;
     }
   }
+
+  /* Login page content */
   #login-content {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -260,6 +271,7 @@ name: 'Login',
     outline: none;
   }
 
+  /* Register fields */
   .cadastro {
     display: grid;
     grid-template-columns: 1fr 1fr;

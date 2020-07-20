@@ -1,27 +1,39 @@
 <template>
   <div id="app-header">
     <header class="main-header">
+      <!-- LOGO -->
       <div class="logo">
         <router-link to="/">
           <img src="../assets/img/logos/inimal_logo.jpeg" alt="">
         </router-link>
         
       </div>
+
+      <!-- SEARCH box -->
       <div class="search-box">
         <input type="text" placeholder="O que você procura?" v-model="search"
         @keyup="searchFor">
         <routerLink to="/search" id="search-btn"></routerLink>
       </div>
+
+      <!-- LINKS to other pages -->
       <div class="links">
+        <!-- Products -->
         <div class="link">
           <router-link to="/products">Produtos</router-link>
         </div>
+
+        <!-- Services -->
         <div class="link">
           <router-link to="/services">Serviços</router-link>
         </div>
+
+        <!-- Login icon when user is not logged -->
         <div class="link" v-if="user.name === undefined">
           <router-link to="/login">Login</router-link>
         </div>
+
+        <!-- User info and link to user page when user is logged -->
         <div class="link user" v-else>
           <div class="user-header">
             <router-link to="/login/user" v-if="user.roles[0] === 'user'">
@@ -36,6 +48,8 @@
             <a @click.stop.prevent="logOut()" class="logout">Sair</a>
           </div>
         </div>
+
+        <!-- CART logo and link -->
         <div class="Cart">
           <router-link to="/Cart">
             <img src="../assets/img/icons/carrinho_icon.png" alt="">
@@ -48,21 +62,25 @@
 
 <script>
 import Bus from './bus'
+
 export default {
   name: 'Header',
   data() {
     return {
-      // Variaveis aqui
+      // Variables
       search: '',
       user: {},
     };
   },
+
+  // Hooks
   mounted() {
     Bus.$on('logged', (value) => {
       this.user = value;
     });
   },
   methods: {
+    // Search box method
     searchFor(event) {
       // Change to search page pressing ENTER
       let key = event.which || event.keyCode;
@@ -75,7 +93,10 @@ export default {
         }
       } 
     },
+
+    // logout the user
     logOut() {
+      // Cleaning user data to share to other pages
       this.user = {};
       this.user.name = undefined;
 
@@ -123,6 +144,8 @@ export default {
     display: none;
   }
 }
+
+/* Header general config */
 #app-header {
   box-sizing: border-box;
   background-color: yellow;
@@ -220,6 +243,7 @@ export default {
   left: 1000px;
 }
 
+/* User informations in the header */
 .user {
   display: grid;
   margin: 0px;

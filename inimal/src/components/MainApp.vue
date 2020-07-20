@@ -1,8 +1,11 @@
 <template>
   <div class="main">
+    <!-- Main logo -->
     <div class="text-content logo">
       <img src="../assets/img/logos/inimal_logo.jpeg" alt="">
     </div>
+
+    <!-- Who we are -->
     <div class="text-content">
       <h2>Quem somos</h2>
       <img src="../assets/img/icons/osso.png" alt="" class="img1">
@@ -10,6 +13,8 @@
         voltadas especialmente para os cuidados do animal de estimação.</p>
       <img src="../assets/img/icons/osso.png" alt="" class="img2">
     </div>
+
+    <!-- Our products -->
     <div class="text-content">
       <h2>Confira nossos produtos</h2>
       <img src="../assets/img/icons/osso.png" alt="" class="img1">
@@ -19,6 +24,8 @@
         das melhores marcas.</p>
       <img src="../assets/img/icons/osso.png" alt="" class="img2">
     </div>
+
+    <!-- Our services -->
     <div class="text-content">
       <h2>Confira nossos serviços</h2>
       <img src="../assets/img/icons/osso.png" alt="" class="img1">
@@ -28,19 +35,30 @@
         de banho e tosa.</p>
       <img src="../assets/img/icons/osso.png" alt="" class="img2">
     </div>
+
+    <!-- Social medias -->
     <div class="text-content">
       <h2>Nossas redes sociais</h2>
       <img src="../assets/img/icons/osso.png" alt="" class="img1">
+
+      <!-- Logos -->
       <div class="logos">
+        <!-- FACEBOOK -->
         <a href="https://www.facebook.com" target="blank">
           <img src="../assets/img/logos/fb_logo.png" alt="">
         </a>
+
+        <!-- WHATS APP -->
         <a href="https://www.whatsapp.com/?lang=pt_br" target="blank">
           <img src="../assets/img/logos/wpp_logo.png" alt="">
         </a>
+
+        <!-- INSTAGRAN -->
         <a href="https://www.instagram.com/" target="blank">
           <img src="../assets/img/logos/insta_logo.png" alt="">
         </a>
+
+        <!-- MESSAGER -->
         <a href="https://www.messenger.com" target="blank">
           <img src="../assets/img/logos/msg_logo.png" alt="">
         </a>

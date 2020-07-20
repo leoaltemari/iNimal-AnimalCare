@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+
+// Components
 import MainContent from '@/components/MainApp';
 import Products from '@/components/Products';
 import Services from '@/components/Services';

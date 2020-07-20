@@ -29,7 +29,7 @@ Admin.prototype.putAdmin = async (userEmail, userToken) => {
     return res;
 }
 
-// PRODUCT
+    // PRODUCT
 Admin.prototype.postProduct = async (product, userToken) => {
     let res = {};
     try {
@@ -106,7 +106,7 @@ Admin.prototype.deleteProduct = async (product, userToken) => {
     return res;
 }
 
-// SERVICE
+    // SERVICE
 Admin.prototype.postService = async (service, userToken) => {
     let res = {};
     try {
@@ -212,9 +212,6 @@ Admin.prototype.getEarnScreen = async (date, userToken) => {
     }
     return res;
 }
-
-
-
 
 Admin.prototype.clear = () => {
     errors = [];

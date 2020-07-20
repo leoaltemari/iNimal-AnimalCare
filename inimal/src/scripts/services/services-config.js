@@ -10,6 +10,7 @@ function Service() {
 }
 
 // Methods
+    // get all services
 Service.prototype.getServices = async () => {
     let res = [];
     try {
@@ -25,6 +26,7 @@ Service.prototype.getServices = async () => {
     return res;
 }
 
+    // schedule a time
 Service.prototype.schedule = async (userData, userToken) => {
     let res = [];
     try {
@@ -42,6 +44,7 @@ Service.prototype.schedule = async (userData, userToken) => {
     return res;
 }
 
+    // get schedulings
 Service.prototype.getSchedulings = async (date) => {
     let res = {};
     try {

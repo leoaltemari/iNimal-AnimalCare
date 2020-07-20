@@ -2,6 +2,7 @@
   <div>
     <div id="cart-content">
 
+      <!-- Sucess menssage when finish an order -->
       <div class="success" v-if="orderSuccess">
             <h3>{{ orderSuccessMsg }}</h3>
       </div>
@@ -39,12 +40,12 @@
 
         <!-- Input card number -->
         <h3 style="margin: 25px;">Total: R${{ total }},00</h3>
-        
         <div v-if="user.name != undefined">
           <h4>Número do cartão</h4>
           <input type="number" placeholder="Digite o número do cartão" v-model="cardNumber">
         </div>
 
+        <!-- Display ERRORS -->
         <div class="error" v-else>
           <h3>Você precisa estar logado para finalizar a compra</h3>
         </div>
@@ -87,9 +88,9 @@ export default {
   },
 
   data: () => {
-    
     // Varibles
     return {
+      // Cart global variables
       total: 0,
       cardNumber: '',
 
@@ -104,6 +105,7 @@ export default {
     };
   },
   methods: {
+    // Make an order
     async finishOrder() {
       if(!this.checkCardNumber()) {
         this.orderError = true;
@@ -132,6 +134,8 @@ export default {
         console.log(err);
       }
     },
+
+    // Validation methods
     checkCardNumber() {
       return (this.cardNumber.length > 0);
     },
@@ -144,7 +148,7 @@ export default {
 </script>
 
 <style scoped>
-
+/* Main content */
 #cart-content {
   background-color: white;
   margin: 30px 80px;

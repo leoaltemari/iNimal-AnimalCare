@@ -102,6 +102,8 @@ Pet.prototype.deletePet = async (petId, userToken) => {
     }
     return res;
 }
+
+// getters
 Pet.prototype.getErrors = () => {
     return errors; 
 }

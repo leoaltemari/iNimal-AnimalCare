@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
+
+// Components
 import Header from './components/Header';
 import Products from './components/Products';
 import MainContent from './components/MainApp';

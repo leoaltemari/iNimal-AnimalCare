@@ -15,7 +15,9 @@ export default {
       savedCart: [],
     };
   },
+  // Hooks
   mounted() {
+    // Get all events from all the components
     Bus.$on('logged', (value) => {
       this.savedUser = value;
     });
@@ -48,8 +50,6 @@ export default {
   body {
     grid-area: app-main;
     background-image: url('assets/img/inimal-bkg.jpg');
-    /* background-attachment: */
-    /* background-size: cover; */
     background-repeat: repeat-y;
     height: 88vh;
   }

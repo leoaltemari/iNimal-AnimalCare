@@ -65,6 +65,7 @@ User.prototype.updateUserData = async (data, userId, userToken) => {
     return res;
 }
 
+// getters
 User.prototype.getErrors = () => {
     return errors; 
 }

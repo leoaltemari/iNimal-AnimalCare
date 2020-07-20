@@ -75,7 +75,7 @@
         </aside>
         
         <!--  Service Display -->
-        <aside>
+        <main>
           <!-- ALL the services -->
           <aside id="pets" v-if="!disponibility">
             <h1>Serviços</h1>
@@ -175,7 +175,7 @@
               </table>
             </div> 
           </main>      
-        </aside>
+        </main>
       </div>
     </main>
   </div>
@@ -347,6 +347,7 @@ export default {
 </script>
 
 <style scoped>
+/* media queries */
 @media (max-width: 1050px) {
   #logged {
     display: grid;
@@ -361,7 +362,7 @@ export default {
     display:grid;
     grid-template-columns: 1fr; 
   }
-  
+
   .user-info {
     border-right: none!important;
     border-bottom: 2px solid rgb(179, 179, 179);
@@ -371,8 +372,8 @@ export default {
 
   .user-data {
     margin:  0px 10px!important;
-    /* padding: 0px 20px; */
   }
+  
   #pet-config {
     padding: 20px 40px!important;
   }
@@ -435,7 +436,6 @@ span {
 
 .user-data input {
   min-width: 150px;
-  margin: 10px!important;
 }
 input, select {
   overflow: hidden;
