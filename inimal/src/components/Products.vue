@@ -329,6 +329,7 @@ export default {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
     margin: 0px 10px 10px 10px;
     width: 230px;
+    max-height: 380px;
     background-color: white;
     text-align: center;
     padding: 15px;
@@ -336,13 +337,11 @@ export default {
     border-radius: 20px;
     box-shadow: 0px 0px 2px black;
     color:rgb(102, 102, 255);
-    max-height: 336px;
   }
 
   .item img {
     height: 100px;
     width: 150px;
-    /* border: 2px solid black; */
   }
 
   .item h2 {

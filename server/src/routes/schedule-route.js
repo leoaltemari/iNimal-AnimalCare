@@ -6,7 +6,7 @@ const controller = require('../controllers/schedule-controller');
 const authService = require('../services/auth-service');
 
 // GET 
-router.get('/', authService.isAdmin, controller.get);
+router.get('/:token', authService.isAdmin, controller.get);
 router.get('/customer/:id', authService.authorize, controller.getByCustomerId);
 router.get('/date/:day/:month/:year', controller.getByDate);
 

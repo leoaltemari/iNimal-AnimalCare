@@ -2,7 +2,8 @@
   <div>
     <main id="user-content">
       <!-- Page not found -->
-      <div v-if="!user || user.name === undefined" id="no-logged">
+      <div v-if="!user || user.name === undefined ||
+       user.roles[0] !== 'admin'"  id="no-logged">
         <img src="../../assets/img/icons/error_icon.png" alt="">
         <h1><span>ERRO</span></h1>
         <h3>Página indisponível, você precisa estar logado para acessá-la!</h3>
@@ -478,7 +479,7 @@
                     </tr>
                     <tr v-for="order in earnScreenData" :key="order._id">
                       <td>{{order.customer.name}}</td>
-                      <td>{{order.totalPrice}}</td>
+                      <td>R${{order.totalPrice}},00</td>
                       <td>{{order.hour}}</td>
                       <td>{{order.number}}</td>
                     </tr>

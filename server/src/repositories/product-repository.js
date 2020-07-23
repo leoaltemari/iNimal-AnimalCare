@@ -26,11 +26,6 @@ exports.getBySlug = async (slug) => {
     return res;
 }
 
-exports.getById = async (id) => {
-    const res = await Product.findById(id);
-    return res;
-}
-
 exports.getByTag = async (tag) => {
     const res = await Product.find({ 
         tags: tag,

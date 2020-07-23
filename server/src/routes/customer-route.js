@@ -17,6 +17,6 @@ router.put('/:id', authService.authorize, controller.put, controller.uploadImage
 router.put('/admin/:token', authService.isAdmin, controller.putAdmin);
 
 // DELETE
-router.delete('/', authService.isAdmin ,controller.delete);
+router.delete('/:id', authService.isAdmin ,controller.delete);
 
 module.exports = router;

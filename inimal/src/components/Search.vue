@@ -63,6 +63,10 @@
 
       <!-- Products display-->
       <main id="products-container">  
+        <div class="message error" v-if="products.length === 0"
+        style="background-color: white; padding: 10px;">
+          <h1>Nenhum produto foi encontrado para sua busca!</h1>
+        </div>
         <div class="item" 
         v-for="(product, index) in products" 
         :key="product.id" v-show="product.quantity > 0 && product.show">
@@ -155,11 +159,12 @@ export default {
         this.products[i].status = false;
         this.products[i].show = true;
       }
+
     } catch(err) {
       console.log(err);
     }
   },
-  methods: {
+  methods: {  
     // Methods to add products in the Cart
     showQuantity(productId, index) {
       this.products[index].price += 1;

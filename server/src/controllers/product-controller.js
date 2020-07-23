@@ -53,8 +53,6 @@ exports.get = async (req, res,  next) => {
     };
 };
 
-
-
 exports.getBySlug = async (req, res, next) => {
     try {
         let data = await repository.getBySlug(req.params.slug);
@@ -68,18 +66,6 @@ exports.getBySlug = async (req, res, next) => {
     };
 };
 
-exports.getById = async (req, res, next) => {
-    try{
-        let data = await repository.getById(req.params.id);
-        res.status(200).send(data);
-    } catch(err) {
-        res.status(500).send({ 
-            message: 'Falha ao processar requisição',
-            err: err.message,
-            code: err.code
-        });
-    };     
-}
 exports.getByTag = async (req, res, next) => {
     try {
         let data = await repository.getByTag(req.params.tag);

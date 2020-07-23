@@ -51,7 +51,7 @@ exports.authenticate = async (req, res,  next) => {
 exports.getById = async (req, res,  next) => {
     try{
         const data = await repository.getById(req.params.id);
-        res.status(200).send(data);
+        res.status(200).send(data); 
     } catch(err) {
         res.status(500).send({ 
             message: 'Falha ao processar requisição',
@@ -119,7 +119,7 @@ exports.putAdmin = async(req, res, next) => {
 
         const cb = await repository.updateAdmin(email);
         if(cb === null) {
-            res.status(200).send({ message: "Usuário não encontrado" });
+            res.status(200).send({ message: "Usuário não encontrado!" });
         }
         else if(cb.roles[0] === 'admin') {
             res.status(200).send({ message: "O usuário agora é um administrador!" });
@@ -138,7 +138,7 @@ exports.putAdmin = async(req, res, next) => {
 
 exports.delete = async (req, res, next) => {
     try {
-        const cb = await repository.delete(req.body.id);
+        const cb = await repository.delete(req.params.id);
         if(cb === null) {
             res.status(200).send({
                 message: 'Usuário não encontrado!'
