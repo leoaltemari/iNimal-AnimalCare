@@ -61,7 +61,7 @@ PetValidation.prototype.putValidation = (data) => {
 
     // Race validator
     if(data.race) {
-        validator.hasMinLen(data.race, 5, 'A raça deve possuir mínimo de 5 caracteres');
+        validator.hasMinLen(data.race, 3, 'A raça deve possuir mínimo de 3 caracteres');
         validator.hasMaxLen(data.race, 50, 'A raça deve possuir máximo de 50 caracteres');
     }
 

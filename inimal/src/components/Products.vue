@@ -70,7 +70,7 @@
           <img src="../assets/img/logos/inimal_logo.jpeg" alt="">
           <h2>{{ product.name }}</h2>
           <h4>{{ product.description }}</h4>
-          <h3>Preço: R${{ product.price }}</h3>
+          <h3>Preço: R${{ product.price }},00</h3>
           
           <!-- Select quantity -->
           <div v-if="product.status === true">
@@ -315,6 +315,7 @@ export default {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     margin-left: 20px;
+    border-radius: 20px;
     text-align: center;
   }
 
@@ -327,13 +328,13 @@ export default {
 
   .item {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
-    margin: 0px 10px 10px 10px;
+    margin: 0px 10px 20px 10px;
     width: 230px;
     max-height: 380px;
     background-color: white;
     text-align: center;
     padding: 15px;
-    border: 2px solid rgb(170, 170, 170);
+    border: 1px solid rgb(170, 170, 170);
     border-radius: 20px;
     box-shadow: 0px 0px 2px black;
     color:rgb(102, 102, 255);
@@ -347,6 +348,7 @@ export default {
   .item h2 {
     margin-top: 10px;
     margin-bottom: 10px;
+    height: 55px;
     font-size: 15px;
     font-weight: bold;
   }

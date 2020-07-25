@@ -38,11 +38,11 @@ exports.create = async (body) => {
     const data = body;
     
     data.tags = [];
-    data.tags[0] = body.name;
+    data.tags[0] = body.name.toLowerCase();
     data.tags[1] = body.price.toString();
-    data.tags[2] = body.category;
-    data.tags[3] = body.animal;
-
+    data.tags[2] = body.category.toLowerCase().replace('ç', 'c');
+    data.tags[3] = body.animal.toLowerCase().replace('à', 'a');
+        
     const product = new Product(data);
     const res = await product.save();
     return res;

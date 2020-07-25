@@ -2,7 +2,7 @@
   <div>
     <main id="user-content">
       <div id="logged">
-        <!-- Schedul a time field -->
+        <!-- Schedule a time field -->
         <aside class="user-info" style="text-align: center;">
           <!-- Logged -->
           <h3>Agende um horário</h3><br/>
