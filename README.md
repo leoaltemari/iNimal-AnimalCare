@@ -56,9 +56,9 @@
 - É <strong>necessário</strong> ter instalado o [Node.js](https://nodejs.org/en/) qualquer versão <strong>acima de 10</strong>.
 - O projeto foi desenvolvido utilizando NPM 
 - <strong>Não precisa </strong>instalar o banco de dados pois foi utilizado a nuvem(Atlas) para armazenar os dados.
-- É necessário colocar uma connection string no arquivo de configuração(/server/config.js) de um banco MongoDB que vc tenha permissão de acesso.
+- É necessário colocar uma connection string no arquivo de configuração(/server/config.js) de um banco MongoDB que você tenha permissão de acesso.
 
-##### 1º ⏩ Faça o clone no repositório:
+##### 1º ⏩ Faça o clone do repositório:
 
 ```sh
     $ git clone https://github.com/leoaltemari/iNimal.git
