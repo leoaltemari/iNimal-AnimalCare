@@ -92,7 +92,7 @@
     $ npm start
 
     # Automaticamente será aberta uma janela no seu navegador padrão.
-    # Caso isso não ocorra acesse: http://localhost:8080/#/.
+    # Caso isso não ocorra acesse: http://localhost:8080/#.
 ```
 
 ---
