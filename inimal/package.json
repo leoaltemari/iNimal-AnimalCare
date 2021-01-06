@@ -14,7 +14,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "dns": "^0.2.2",
     "module": "^1.2.5",
     "net": "^1.0.2",
